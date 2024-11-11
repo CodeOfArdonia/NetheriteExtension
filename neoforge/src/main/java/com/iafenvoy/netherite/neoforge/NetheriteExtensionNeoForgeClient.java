@@ -15,9 +15,4 @@ public class NetheriteExtensionNeoForgeClient {
     public static void init(FMLClientSetupEvent event) {
         event.enqueueWork(NetheriteExtensionClient::process);
     }
-
-    @SubscribeEvent
-    public static void registerModel(ModelEvent.RegisterAdditional event) {
-        NetheriteRenderers.registerModel(event::register);
-    }
 }

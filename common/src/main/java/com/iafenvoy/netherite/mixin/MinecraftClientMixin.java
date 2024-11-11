@@ -12,6 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MinecraftClientMixin {
     @Inject(method = "<init>", at = @At("TAIL"))
     private void onClientInitComplete(RunArgs args, CallbackInfo ci) {
-        NetheriteRenderers.registerBuiltinItemRenderers((MinecraftClient) (Object) this);
+//        NetheriteRenderers.registerBuiltinItemRenderers((MinecraftClient) (Object) this);
     }
 }

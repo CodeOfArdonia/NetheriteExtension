@@ -19,6 +19,7 @@
     "ItemRendererMixin",
     "LivingEntityRendererMixin",
     "MinecraftClientMixin",
+    "ModelLoaderMixin",
     "TridentEntityRendererMixin"
   ],
   "injectors": {

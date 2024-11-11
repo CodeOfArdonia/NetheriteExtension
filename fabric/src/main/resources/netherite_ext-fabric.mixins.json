@@ -8,8 +8,7 @@
     "FabricShieldLibMixin"
   ],
   "client": [
-    "HeldItemRendererMixin",
-    "ModelLoaderMixin"
+    "HeldItemRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

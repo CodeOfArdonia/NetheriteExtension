@@ -14,8 +14,6 @@ accessible field net/minecraft/entity/projectile/FishingBobberEntity waitCountdo
 accessible field net/minecraft/entity/projectile/FishingBobberEntity CAUGHT_FISH Lnet/minecraft/entity/data/TrackedData;
 accessible field net/minecraft/entity/projectile/FishingBobberEntity fishAngle F
 accessible field net/minecraft/entity/projectile/FishingBobberEntity caughtFish Z
-accessible field net/minecraft/entity/projectile/FishingBobberEntity lureLevel I
-accessible field net/minecraft/entity/projectile/FishingBobberEntity luckOfTheSeaLevel I
 accessible field net/minecraft/entity/projectile/PersistentProjectileEntity stack Lnet/minecraft/item/ItemStack;
 accessible field net/minecraft/entity/projectile/TridentEntity dealtDamage Z
 accessible field net/minecraft/entity/attribute/EntityAttributeModifier value D

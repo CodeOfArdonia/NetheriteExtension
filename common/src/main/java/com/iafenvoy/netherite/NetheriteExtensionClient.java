@@ -3,6 +3,7 @@ package com.iafenvoy.netherite;
 import com.iafenvoy.netherite.network.TridentSpawnPacket;
 import com.iafenvoy.netherite.registry.NetheriteRenderers;
 import com.iafenvoy.netherite.registry.NetheriteScreenHandlers;
+import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.networking.NetworkManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -16,13 +17,14 @@ public class NetheriteExtensionClient {
 
     public static void init() {
         NetheriteRenderers.registerModelLayers();
+        ClientLifecycleEvent.CLIENT_STARTED.register(NetheriteRenderers::registerBuiltinItemRenderers);
     }
 
     public static void process() {
+        NetheriteScreenHandlers.initializeClient();
         NetheriteRenderers.registerModelPredicates();
         NetheriteRenderers.registerBlockEntityRenderers();
         NetheriteRenderers.registerRenderTypes();
-        NetheriteScreenHandlers.initializeClient();
         NetworkManager.registerReceiver(NetworkManager.Side.S2C, TridentSpawnPacket.ID, TridentSpawnPacket.CODEC, (payload, ctx) -> TRIDENT_QUEUE.add(payload.id()));
     }
 }
