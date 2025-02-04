@@ -53,4 +53,7 @@ shadowJar {
 
 remapJar {
     input.set shadowJar.archiveFile
+    dependsOn shadowJar
+    archiveClassifier = ""
+    atAccessWideners.add("netherite_ext.accesswidener")
 }
