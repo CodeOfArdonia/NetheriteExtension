@@ -215,7 +215,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
     public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof NetheriteShulkerBoxBlockEntity netheriteShulkerBoxBlockEntity) {
-            if (!world.isClient && player.isCreative() && !netheriteShulkerBoxBlockEntity.isEmpty()) {
+            if (!world.isClient && !netheriteShulkerBoxBlockEntity.isEmpty()) {
                 ItemStack itemStack = getItemStack(this.getColor());
                 NbtCompound compoundTag = netheriteShulkerBoxBlockEntity.serializeInventory(new NbtCompound(), world.getRegistryManager());
                 if (!compoundTag.isEmpty())

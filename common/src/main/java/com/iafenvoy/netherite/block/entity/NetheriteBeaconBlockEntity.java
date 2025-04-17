@@ -68,15 +68,19 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
         public int get(int index) {
             return switch (index) {
                 case 0 -> NetheriteBeaconBlockEntity.this.beaconLevel;
-                case 1 -> Registries.STATUS_EFFECT.getRawId(NetheriteBeaconBlockEntity.this.primary.value());
-                case 2 -> Registries.STATUS_EFFECT.getRawId(NetheriteBeaconBlockEntity.this.secondary.value());
-                case 3 -> Registries.STATUS_EFFECT.getRawId(NetheriteBeaconBlockEntity.this.tertiary.value());
+                case 1 ->
+                        NetheriteBeaconBlockEntity.this.primary == null ? -1 : Registries.STATUS_EFFECT.getRawId(NetheriteBeaconBlockEntity.this.primary.value());
+                case 2 ->
+                        NetheriteBeaconBlockEntity.this.secondary == null ? -1 : Registries.STATUS_EFFECT.getRawId(NetheriteBeaconBlockEntity.this.secondary.value());
+                case 3 ->
+                        NetheriteBeaconBlockEntity.this.tertiary == null ? -1 : Registries.STATUS_EFFECT.getRawId(NetheriteBeaconBlockEntity.this.tertiary.value());
                 default -> 0;
             };
         }
 
         @Override
         public void set(int index, int value) {
+            if (value == -1) return;
             switch (index) {
                 case 0:
                     NetheriteBeaconBlockEntity.this.beaconLevel = value;
