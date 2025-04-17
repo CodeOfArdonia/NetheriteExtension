@@ -1,10 +1,13 @@
 package com.iafenvoy.netherite;
 
+import com.iafenvoy.netherite.network.TridentSpawnPacket;
 import com.iafenvoy.netherite.network.UpdateNetheriteBeaconC2SPacket;
 import com.iafenvoy.netherite.registry.*;
 import com.iafenvoy.netherite.screen.NetheriteBeaconScreenHandler;
 import com.mojang.logging.LogUtils;
 import dev.architectury.networking.NetworkManager;
+import dev.architectury.platform.Platform;
+import dev.architectury.utils.Env;
 import net.minecraft.registry.entry.RegistryEntry;
 import org.slf4j.Logger;
 
@@ -34,5 +37,7 @@ public class NetheriteExtension {
                 ctx.getPlayer().closeHandledScreen();
             }
         }));
+        if (Platform.getEnvironment() == Env.SERVER)
+            NetworkManager.registerS2CPayloadType(TridentSpawnPacket.ID, TridentSpawnPacket.CODEC);
     }
 }
