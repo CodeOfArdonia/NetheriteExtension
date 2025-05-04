@@ -34,16 +34,14 @@ public final class NetheriteItems {
     public static final CauldronBehavior CLEAN_NETHERITE_BOX = (state, world, pos, player, hand, stack) -> {
         Block block = Block.getBlockFromItem(stack.getItem());
         if (!(block instanceof NetheriteShulkerBoxBlock)) return ActionResult.PASS;
-        else {
-            if (!world.isClient) {
-                ItemStack itemStack = new ItemStack(NetheriteBlocks.NETHERITE_SHULKER_BOX.get());
-                if (stack.hasNbt()) itemStack.setNbt(stack.getOrCreateNbt().copy());
-                player.setStackInHand(hand, itemStack);
-                player.incrementStat(Stats.CLEAN_SHULKER_BOX);
-                LeveledCauldronBlock.decrementFluidLevel(state, world, pos);
-            }
-            return ActionResult.success(world.isClient);
+        else if (!world.isClient) {
+            ItemStack itemStack = new ItemStack(NetheriteBlocks.NETHERITE_SHULKER_BOX.get());
+            if (stack.hasNbt()) itemStack.setNbt(stack.getOrCreateNbt().copy());
+            player.setStackInHand(hand, itemStack);
+            player.incrementStat(Stats.CLEAN_SHULKER_BOX);
+            LeveledCauldronBlock.decrementFluidLevel(state, world, pos);
         }
+        return ActionResult.success(world.isClient);
     };
     public static final RegistrySupplier<Item> NETHERITE_ELYTRA = register(new Identifier(NetheriteExtension.MOD_ID, "netherite_elytra"), () -> NetheriteElytraItem.create(new Item.Settings().maxDamage(NetheriteExtensionConfig.INSTANCE.durability.elytra).rarity(Rarity.UNCOMMON).fireproof()));
     public static final RegistrySupplier<Item> NETHERITE_FISHING_ROD = register(new Identifier(NetheriteExtension.MOD_ID, "netherite_fishing_rod"), () -> new NetheriteFishingRodItem(new Item.Settings().maxDamage(NetheriteExtensionConfig.INSTANCE.durability.fishing_rod).fireproof()));

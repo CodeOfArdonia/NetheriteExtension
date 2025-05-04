@@ -17,8 +17,8 @@
     "BuiltinModelItemRendererMixin",
     "ClientPlayNetworkHandlerAccessor",
     "ClientPlayNetworkHandlerMixin",
+    "ElytraFeatureRendererMixin",
     "ItemRendererMixin",
-    "LivingEntityRendererMixin",
     "MinecraftClientMixin",
     "TridentEntityRendererMixin"
   ],

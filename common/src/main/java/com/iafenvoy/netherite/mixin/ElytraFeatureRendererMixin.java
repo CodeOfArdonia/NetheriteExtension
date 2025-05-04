@@ -1,40 +1,45 @@
-package com.iafenvoy.netherite.client.render;
+package com.iafenvoy.netherite.mixin;
 
 import com.iafenvoy.netherite.NetheriteExtension;
 import com.iafenvoy.netherite.registry.NetheriteItems;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.PlayerModelPart;
+import net.minecraft.client.render.entity.feature.ElytraFeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.ElytraEntityModel;
 import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.model.EntityModelLayers;
-import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Environment(EnvType.CLIENT)
-public class NetheriteElytraFeatureRenderer<T extends LivingEntity, M extends EntityModel<T>> extends FeatureRenderer<T, M> {
-    public static final Identifier NETHERITE_ELYTRA_SKIN = new Identifier(NetheriteExtension.MOD_ID, "textures/entity/netherite_elytra.png");
-    private final ElytraEntityModel<T> elytra;
+@Mixin(ElytraFeatureRenderer.class)
+public abstract class ElytraFeatureRendererMixin<T extends LivingEntity, M extends EntityModel<T>> extends FeatureRenderer<T, M> {
+    @Unique
+    private static final Identifier NETHERITE_ELYTRA_SKIN = new Identifier(NetheriteExtension.MOD_ID, "textures/entity/netherite_elytra.png");
+    @Shadow
+    @Final
+    private ElytraEntityModel<T> elytra;
 
-    public NetheriteElytraFeatureRenderer(FeatureRendererContext<T, M> featureRendererContext, EntityModelLoader entityModelLoader) {
-        super(featureRendererContext);
-        this.elytra = new ElytraEntityModel<>(entityModelLoader.getModelPart(EntityModelLayers.ELYTRA));
+    public ElytraFeatureRendererMixin(FeatureRendererContext<T, M> context) {
+        super(context);
     }
 
-    @Override
-    public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T livingEntity, float f, float g, float h, float j, float k, float l) {
-        ItemStack itemStack = livingEntity.getEquippedStack(EquipmentSlot.CHEST);
+    @Inject(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/entity/LivingEntity;FFFFFF)V", at = @At("RETURN"))
+    private void appendNetheriteElytraRender(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T livingEntity, float f, float g, float h, float j, float k, float l, CallbackInfo ci, @Local ItemStack itemStack) {
         if (itemStack.isOf(NetheriteItems.NETHERITE_ELYTRA.get())) {
             Identifier identifier4;
             if (livingEntity instanceof AbstractClientPlayerEntity abstractClientPlayerEntity) {
