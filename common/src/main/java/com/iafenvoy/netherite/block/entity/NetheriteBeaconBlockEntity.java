@@ -22,6 +22,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ContainerLock;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
@@ -64,15 +65,19 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
         public int get(int index) {
             return switch (index) {
                 case 0 -> NetheriteBeaconBlockEntity.this.beaconLevel;
-                case 1 -> StatusEffect.getRawId(NetheriteBeaconBlockEntity.this.primary);
-                case 2 -> StatusEffect.getRawId(NetheriteBeaconBlockEntity.this.secondary);
-                case 3 -> StatusEffect.getRawId(NetheriteBeaconBlockEntity.this.tertiary);
+                case 1 ->
+                        NetheriteBeaconBlockEntity.this.primary == null ? -1 : Registries.STATUS_EFFECT.getRawId(NetheriteBeaconBlockEntity.this.primary);
+                case 2 ->
+                        NetheriteBeaconBlockEntity.this.secondary == null ? -1 : Registries.STATUS_EFFECT.getRawId(NetheriteBeaconBlockEntity.this.secondary);
+                case 3 ->
+                        NetheriteBeaconBlockEntity.this.tertiary == null ? -1 : Registries.STATUS_EFFECT.getRawId(NetheriteBeaconBlockEntity.this.tertiary);
                 default -> 0;
             };
         }
 
         @Override
         public void set(int index, int value) {
+            if (value == -1) return;
             switch (index) {
                 case 0:
                     NetheriteBeaconBlockEntity.this.beaconLevel = value;

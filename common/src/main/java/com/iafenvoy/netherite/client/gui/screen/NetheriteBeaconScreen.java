@@ -266,8 +266,8 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
         }
 
         protected void init(StatusEffect statusEffect) {
-            this.effect = statusEffect;
-            this.sprite = MinecraftClient.getInstance().getStatusEffectSpriteManager().getSprite(statusEffect);
+            this.effect = statusEffect == null ? StatusEffects.SPEED : statusEffect;
+            this.sprite = MinecraftClient.getInstance().getStatusEffectSpriteManager().getSprite(this.effect);
         }
 
         protected MutableText getEffectName(StatusEffect statusEffect) {
