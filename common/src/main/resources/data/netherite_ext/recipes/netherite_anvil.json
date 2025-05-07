@@ -1,4 +1,5 @@
 {
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "###",
     " I ",
@@ -14,6 +15,5 @@
   },
   "result": {
     "item": "netherite_ext:netherite_anvil"
-  },
-  "type": "minecraft:crafting_shaped"
+  }
 }

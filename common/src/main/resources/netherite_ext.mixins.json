@@ -4,16 +4,19 @@
   "package": "com.iafenvoy.netherite.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "ArmorMaterialsMixin",
     "BlockItemMixin",
     "CrossbowItemMixin",
     "ItemPredicateMixin",
     "PlayerEntityMixin",
     "ServerPlayNetworkHandlerMixin",
     "ShulkerBoxBlockEntityMixin",
+    "ToolMaterialsMixin",
     "TridentEntityMixin"
   ],
   "client": [
     "BackgroundRendererMixin",
+    "BeaconScreenMixin",
     "BuiltinModelItemRendererMixin",
     "ClientPlayNetworkHandlerMixin",
     "ElytraFeatureRendererMixin",

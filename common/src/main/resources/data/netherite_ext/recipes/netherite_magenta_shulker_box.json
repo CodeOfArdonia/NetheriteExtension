@@ -1,4 +1,5 @@
 {
+  "type": "minecraft:smithing_transform",
   "base": {
     "item": "minecraft:magenta_shulker_box"
   },
@@ -8,7 +9,6 @@
   "result": {
     "item": "netherite_ext:netherite_magenta_shulker_box"
   },
-  "type": "minecraft:smithing_transform",
   "template": {
     "item": "minecraft:netherite_upgrade_smithing_template"
   }

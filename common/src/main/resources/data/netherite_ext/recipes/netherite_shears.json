@@ -1,4 +1,5 @@
 {
+  "type": "minecraft:smithing_transform",
   "base": {
     "item": "minecraft:shears"
   },
@@ -8,7 +9,6 @@
   "result": {
     "item": "netherite_ext:netherite_shears"
   },
-  "type": "minecraft:smithing_transform",
   "template": {
     "item": "minecraft:netherite_upgrade_smithing_template"
   }

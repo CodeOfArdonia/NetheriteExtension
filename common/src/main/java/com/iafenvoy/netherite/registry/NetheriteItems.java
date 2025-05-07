@@ -40,6 +40,7 @@ public final class NetheriteItems {
         }
         return ActionResult.success(world.isClient);
     };
+    public static final RegistrySupplier<Item> NETHERITE_NUGGET = register("netherite_nugget", () -> new Item(new Item.Settings().fireproof().arch$tab(NetheriteItemGroups.MAIN)));
     public static final RegistrySupplier<Item> NETHERITE_ELYTRA = register("netherite_elytra", () -> NetheriteElytraItem.create(new Item.Settings().maxDamage(NetheriteExtensionConfig.INSTANCE.durability.elytra).rarity(Rarity.UNCOMMON).fireproof().arch$tab(NetheriteItemGroups.MAIN)));
     public static final RegistrySupplier<Item> NETHERITE_FISHING_ROD = register("netherite_fishing_rod", () -> new NetheriteFishingRodItem(new Item.Settings().maxDamage(NetheriteExtensionConfig.INSTANCE.durability.fishing_rod).fireproof().arch$tab(NetheriteItemGroups.MAIN)));
     public static final RegistrySupplier<Item> NETHERITE_BOW = register("netherite_bow", () -> new NetheriteBowItem(new Item.Settings().maxDamage(NetheriteExtensionConfig.INSTANCE.durability.bow).fireproof().arch$tab(NetheriteItemGroups.MAIN)));
