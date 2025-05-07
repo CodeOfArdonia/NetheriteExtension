@@ -1,7 +1,7 @@
-package com.iafenvoy.netherite.client.render;
+package com.iafenvoy.netherite.render;
 
 import com.iafenvoy.netherite.NetheriteExtension;
-import com.iafenvoy.netherite.block.entity.NetheriteShulkerBoxBlockEntity;
+import com.iafenvoy.netherite.item.block.entity.NetheriteShulkerBoxBlockEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -30,12 +30,9 @@ public class NetheriteShulkerBoxBlockEntityRenderer implements BlockEntityRender
     @Override
     public void render(NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity, float f, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, int j) {
         Direction direction = Direction.UP;
-        if (shulkerBoxBlockEntity.hasWorld()) {
-            assert shulkerBoxBlockEntity.getWorld() != null;
-            BlockState blockState = shulkerBoxBlockEntity.getWorld().getBlockState(shulkerBoxBlockEntity.getPos());
-            if (blockState.getBlock() instanceof ShulkerBoxBlock)
-                direction = blockState.get(ShulkerBoxBlock.FACING);
-        }
+        BlockState blockState = shulkerBoxBlockEntity.getCachedState();
+        if (blockState.getBlock() instanceof ShulkerBoxBlock)
+            direction = blockState.get(ShulkerBoxBlock.FACING);
         DyeColor dyeColor = shulkerBoxBlockEntity.getColor();
         matrixStack.push();
         matrixStack.translate(0.5, 0.5, 0.5);

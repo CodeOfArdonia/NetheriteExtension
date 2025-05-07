@@ -1,10 +1,8 @@
-package com.iafenvoy.netherite.block;
+package com.iafenvoy.netherite.item.block;
 
-import com.iafenvoy.netherite.block.entity.NetheriteBeaconBlockEntity;
-import com.iafenvoy.netherite.registry.NetheriteBlocks;
-import net.minecraft.block.BeaconBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import com.iafenvoy.netherite.item.block.entity.NetheriteBeaconBlockEntity;
+import com.iafenvoy.netherite.registry.NetheriteBlockEntities;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -22,8 +20,8 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class NetheriteBeaconBlock extends BeaconBlock {
-    public NetheriteBeaconBlock(Settings settings) {
-        super(settings);
+    public NetheriteBeaconBlock() {
+        super(AbstractBlock.Settings.copy(Blocks.BEACON));
         this.setDefaultState(this.getStateManager().getDefaultState().with(Properties.POWERED, false));
     }
 
@@ -41,7 +39,7 @@ public class NetheriteBeaconBlock extends BeaconBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, NetheriteBlocks.NETHERITE_BEACON_BLOCK_ENTITY.get(), NetheriteBeaconBlockEntity::tick);
+        return checkType(type, NetheriteBlockEntities.NETHERITE_BEACON_BLOCK_ENTITY.get(), NetheriteBeaconBlockEntity::tick);
     }
 
     @Override

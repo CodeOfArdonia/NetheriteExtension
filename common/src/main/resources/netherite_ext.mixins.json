@@ -15,7 +15,6 @@
   "client": [
     "BackgroundRendererMixin",
     "BuiltinModelItemRendererMixin",
-    "ClientPlayNetworkHandlerAccessor",
     "ClientPlayNetworkHandlerMixin",
     "ElytraFeatureRendererMixin",
     "ItemRendererMixin",

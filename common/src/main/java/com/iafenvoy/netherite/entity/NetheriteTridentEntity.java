@@ -1,7 +1,6 @@
 package com.iafenvoy.netherite.entity;
 
 import com.iafenvoy.netherite.config.NetheriteExtensionConfig;
-import com.iafenvoy.netherite.registry.NetheriteItems;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -22,11 +21,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class NetheriteTridentEntity extends TridentEntity {
-    public NetheriteTridentEntity(EntityType<? extends TridentEntity> entityType, World world) {
-        super(entityType, world);
-        this.tridentStack = new ItemStack(NetheriteItems.NETHERITE_TRIDENT.get());
-    }
-
     public NetheriteTridentEntity(World world, LivingEntity owner, ItemStack stack) {
         super(world, owner, stack);
         this.tridentStack = stack;
@@ -69,10 +63,5 @@ public class NetheriteTridentEntity extends TridentEntity {
             }
         }
         this.playSound(soundEvent, g, 1.0F);
-    }
-
-    @Override
-    public Packet<ClientPlayPacketListener> createSpawnPacket() {
-        return super.createSpawnPacket();
     }
 }

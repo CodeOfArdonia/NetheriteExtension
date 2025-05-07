@@ -1,6 +1,6 @@
-package com.iafenvoy.netherite.client.render;
+package com.iafenvoy.netherite.render;
 
-import com.iafenvoy.netherite.block.entity.NetheriteBeaconBlockEntity;
+import com.iafenvoy.netherite.item.block.entity.NetheriteBeaconBlockEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.OverlayTexture;

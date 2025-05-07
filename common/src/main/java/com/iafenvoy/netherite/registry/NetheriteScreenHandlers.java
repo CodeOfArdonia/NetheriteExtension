@@ -1,10 +1,10 @@
 package com.iafenvoy.netherite.registry;
 
 import com.iafenvoy.netherite.NetheriteExtension;
-import com.iafenvoy.netherite.client.gui.screen.NetheriteAnvilScreen;
-import com.iafenvoy.netherite.client.gui.screen.NetheriteBeaconScreen;
-import com.iafenvoy.netherite.screen.NetheriteAnvilScreenHandler;
-import com.iafenvoy.netherite.screen.NetheriteBeaconScreenHandler;
+import com.iafenvoy.netherite.screen.gui.NetheriteAnvilScreen;
+import com.iafenvoy.netherite.screen.gui.NetheriteBeaconScreen;
+import com.iafenvoy.netherite.screen.handler.NetheriteAnvilScreenHandler;
+import com.iafenvoy.netherite.screen.handler.NetheriteBeaconScreenHandler;
 import dev.architectury.registry.menu.MenuRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;

@@ -1,4 +1,4 @@
-package com.iafenvoy.netherite.client.render;
+package com.iafenvoy.netherite.render;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

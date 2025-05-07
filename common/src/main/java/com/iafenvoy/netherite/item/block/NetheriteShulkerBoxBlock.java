@@ -1,7 +1,8 @@
-package com.iafenvoy.netherite.block;
+package com.iafenvoy.netherite.item.block;
 
-import com.iafenvoy.netherite.block.entity.NetheriteShulkerBoxBlockEntity;
-import com.iafenvoy.netherite.block.entity.NetheriteShulkerBoxBlockEntity.AnimationStage;
+import com.iafenvoy.netherite.item.block.entity.NetheriteShulkerBoxBlockEntity;
+import com.iafenvoy.netherite.item.block.entity.NetheriteShulkerBoxBlockEntity.AnimationStage;
+import com.iafenvoy.netherite.registry.NetheriteBlockEntities;
 import com.iafenvoy.netherite.registry.NetheriteBlocks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -9,6 +10,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
@@ -41,42 +43,33 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
+@SuppressWarnings("deprecation")
 public class NetheriteShulkerBoxBlock extends BlockWithEntity {
     public static final EnumProperty<Direction> FACING = FacingBlock.FACING;
     public static final Identifier CONTENTS = new Identifier("contents");
-
+    private static final Map<DyeColor, Block> BY_COLOR = new HashMap<>();
+    private static final AbstractBlock.ContextPredicate CONTEXT_PREDICATE = (state, world, pos) -> !(world.getBlockEntity(pos) instanceof NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity) || shulkerBoxBlockEntity.suffocates();
     @Nullable
     private final DyeColor color;
 
-    public NetheriteShulkerBoxBlock(@Nullable DyeColor color, Settings settings) {
-        super(settings);
+    public NetheriteShulkerBoxBlock(@Nullable DyeColor color) {
+        super(Settings.create().mapColor(color == null ? DyeColor.GRAY : color).solid().strength(2.0F).resistance(1200.0F).dynamicBounds().nonOpaque().suffocates(CONTEXT_PREDICATE).blockVision(CONTEXT_PREDICATE).pistonBehavior(PistonBehavior.DESTROY).solidBlock((state, world, pos) -> true));
         this.color = color;
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.UP));
+        BY_COLOR.put(this.color, this);
     }
 
     public static Block get(DyeColor dyeColor) {
-        if (dyeColor == null)
-            return NetheriteBlocks.NETHERITE_SHULKER_BOX.get();
-        return switch (dyeColor) {
-            case WHITE -> NetheriteBlocks.NETHERITE_WHITE_SHULKER_BOX.get();
-            case ORANGE -> NetheriteBlocks.NETHERITE_ORANGE_SHULKER_BOX.get();
-            case MAGENTA -> NetheriteBlocks.NETHERITE_MAGENTA_SHULKER_BOX.get();
-            case LIGHT_BLUE -> NetheriteBlocks.NETHERITE_LIGHT_BLUE_SHULKER_BOX.get();
-            case YELLOW -> NetheriteBlocks.NETHERITE_YELLOW_SHULKER_BOX.get();
-            case LIME -> NetheriteBlocks.NETHERITE_LIME_SHULKER_BOX.get();
-            case PINK -> NetheriteBlocks.NETHERITE_PINK_SHULKER_BOX.get();
-            case GRAY -> NetheriteBlocks.NETHERITE_GRAY_SHULKER_BOX.get();
-            case LIGHT_GRAY -> NetheriteBlocks.NETHERITE_LIGHT_GRAY_SHULKER_BOX.get();
-            case CYAN -> NetheriteBlocks.NETHERITE_CYAN_SHULKER_BOX.get();
-            case PURPLE -> NetheriteBlocks.NETHERITE_PURPLE_SHULKER_BOX.get();
-            case BLUE -> NetheriteBlocks.NETHERITE_BLUE_SHULKER_BOX.get();
-            case BROWN -> NetheriteBlocks.NETHERITE_BROWN_SHULKER_BOX.get();
-            case GREEN -> NetheriteBlocks.NETHERITE_GREEN_SHULKER_BOX.get();
-            case RED -> NetheriteBlocks.NETHERITE_RED_SHULKER_BOX.get();
-            case BLACK -> NetheriteBlocks.NETHERITE_BLACK_SHULKER_BOX.get();
-        };
+        return BY_COLOR.getOrDefault(dyeColor, NetheriteBlocks.NETHERITE_SHULKER_BOX.get());
+    }
+
+    public static Stream<Block> streamAll() {
+        return BY_COLOR.values().stream();
     }
 
     @Environment(EnvType.CLIENT)
@@ -142,7 +135,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, NetheriteBlocks.NETHERITE_SHULKER_BOX_ENTITY.get(), NetheriteShulkerBoxBlockEntity::tick);
+        return checkType(type, NetheriteBlockEntities.NETHERITE_SHULKER_BOX_ENTITY.get(), NetheriteShulkerBoxBlockEntity::tick);
     }
 
     public @Nullable DyeColor getColor() {

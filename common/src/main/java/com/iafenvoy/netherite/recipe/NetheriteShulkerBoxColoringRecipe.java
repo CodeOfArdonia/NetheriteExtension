@@ -1,6 +1,6 @@
 package com.iafenvoy.netherite.recipe;
 
-import com.iafenvoy.netherite.block.NetheriteShulkerBoxBlock;
+import com.iafenvoy.netherite.item.block.NetheriteShulkerBoxBlock;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.DyeItem;

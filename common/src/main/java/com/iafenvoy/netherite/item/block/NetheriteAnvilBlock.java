@@ -1,8 +1,10 @@
-package com.iafenvoy.netherite.block;
+package com.iafenvoy.netherite.item.block;
 
-import com.iafenvoy.netherite.screen.NetheriteAnvilScreenHandler;
+import com.iafenvoy.netherite.screen.handler.NetheriteAnvilScreenHandler;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.AnvilBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
@@ -13,8 +15,8 @@ import net.minecraft.world.World;
 public class NetheriteAnvilBlock extends AnvilBlock {
     private static final Text TITLE = Text.translatable("container.repair");
 
-    public NetheriteAnvilBlock(Settings settings) {
-        super(settings);
+    public NetheriteAnvilBlock() {
+        super(AbstractBlock.Settings.copy(Blocks.ANVIL));
     }
 
     @Override

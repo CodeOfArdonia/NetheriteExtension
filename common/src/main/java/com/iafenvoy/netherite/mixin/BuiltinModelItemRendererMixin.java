@@ -1,6 +1,6 @@
 package com.iafenvoy.netherite.mixin;
 
-import com.iafenvoy.netherite.client.render.DynamicItemRenderer;
+import com.iafenvoy.netherite.render.DynamicItemRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;

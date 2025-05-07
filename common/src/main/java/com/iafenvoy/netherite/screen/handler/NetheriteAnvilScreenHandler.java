@@ -1,4 +1,4 @@
-package com.iafenvoy.netherite.screen;
+package com.iafenvoy.netherite.screen.handler;
 
 import com.iafenvoy.netherite.config.NetheriteExtensionConfig;
 import com.iafenvoy.netherite.registry.NetheriteBlocks;

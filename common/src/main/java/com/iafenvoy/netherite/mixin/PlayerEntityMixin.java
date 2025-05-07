@@ -1,11 +1,11 @@
 package com.iafenvoy.netherite.mixin;
 
 import com.iafenvoy.netherite.registry.NetheriteItems;
-import com.iafenvoy.netherite.registry.NetheriteStats;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,6 +29,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         for (ItemStack item : this.getArmorItems())
             hasNetheriteElytra |= item.isOf(NetheriteItems.NETHERITE_ELYTRA.get());
         if (!hasNetheriteElytra) return;
-        this.increaseStat(NetheriteStats.FLY_NETHERITE_ELYTRA_ONE_CM, Math.round((float) Math.sqrt(dx * dx + dy * dy + dz * dz) * 100.0F));
+        this.increaseStat(Stats.FLY_ONE_CM, Math.round((float) Math.sqrt(dx * dx + dy * dy + dz * dz) * 100.0F));
     }
 }

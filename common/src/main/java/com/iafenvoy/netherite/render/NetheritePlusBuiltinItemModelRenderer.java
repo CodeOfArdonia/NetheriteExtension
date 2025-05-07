@@ -1,12 +1,14 @@
-package com.iafenvoy.netherite.client.render;
+package com.iafenvoy.netherite.render;
 
 import com.iafenvoy.netherite.NetheriteExtension;
-import com.iafenvoy.netherite.block.NetheriteShulkerBoxBlock;
-import com.iafenvoy.netherite.block.entity.NetheriteShulkerBoxBlockEntity;
+import com.iafenvoy.netherite.item.block.NetheriteShulkerBoxBlock;
+import com.iafenvoy.netherite.item.block.entity.NetheriteShulkerBoxBlockEntity;
 import com.iafenvoy.netherite.registry.NetheriteBlocks;
 import com.iafenvoy.netherite.registry.NetheriteItems;
 import com.iafenvoy.netherite.registry.NetheriteRenderers;
 import com.mojang.datafixers.util.Pair;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.MinecraftClient;
@@ -36,6 +38,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+@Environment(EnvType.CLIENT)
 public class NetheritePlusBuiltinItemModelRenderer {
     private static final SpriteIdentifier NETHERITE_SHIELD_BASE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, Identifier.of(NetheriteExtension.MOD_ID, "entity/netherite_shield_base"));
     private static final SpriteIdentifier NETHERITE_SHIELD_BASE_NO_PATTERN = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, Identifier.of(NetheriteExtension.MOD_ID, "entity/netherite_shield_base_nopattern"));

@@ -2,7 +2,6 @@ package com.iafenvoy.netherite.item;
 
 import com.iafenvoy.netherite.config.NetheriteExtensionConfig;
 import com.iafenvoy.netherite.entity.NetheriteTridentEntity;
-import com.iafenvoy.netherite.registry.NetheriteCriteria;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
@@ -11,7 +10,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.TridentItem;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -47,8 +45,7 @@ public class NetheriteTridentItem extends TridentItem {
                             world.playSoundFromEntity(null, tridentEntity, SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
                             if (!playerEntity.getAbilities().creativeMode)
                                 playerEntity.getInventory().removeOne(stack);
-                        } else
-                            NetheriteCriteria.RIPTIDE_NETHERITE_TRIDENT.trigger((ServerPlayerEntity) playerEntity);
+                        }
                     }
                     playerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
                     if (riptideLevel > 0) {

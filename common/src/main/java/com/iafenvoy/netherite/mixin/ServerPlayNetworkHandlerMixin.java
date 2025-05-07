@@ -1,6 +1,6 @@
 package com.iafenvoy.netherite.mixin;
 
-import com.iafenvoy.netherite.screen.NetheriteAnvilScreenHandler;
+import com.iafenvoy.netherite.screen.handler.NetheriteAnvilScreenHandler;
 import net.minecraft.SharedConstants;
 import net.minecraft.network.packet.c2s.play.RenameItemC2SPacket;
 import net.minecraft.server.network.ServerPlayNetworkHandler;

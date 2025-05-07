@@ -1,6 +1,6 @@
 package com.iafenvoy.netherite.mixin;
 
-import com.iafenvoy.netherite.block.NetheriteShulkerBoxBlock;
+import com.iafenvoy.netherite.item.block.NetheriteShulkerBoxBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.item.ItemStack;

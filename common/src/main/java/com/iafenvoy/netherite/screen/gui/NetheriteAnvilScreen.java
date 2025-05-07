@@ -1,6 +1,6 @@
-package com.iafenvoy.netherite.client.gui.screen;
+package com.iafenvoy.netherite.screen.gui;
 
-import com.iafenvoy.netherite.screen.NetheriteAnvilScreenHandler;
+import com.iafenvoy.netherite.screen.handler.NetheriteAnvilScreenHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;

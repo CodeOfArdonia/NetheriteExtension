@@ -1,9 +1,9 @@
-package com.iafenvoy.netherite.client.gui.screen;
+package com.iafenvoy.netherite.screen.gui;
 
 import com.google.common.collect.Lists;
 import com.iafenvoy.netherite.NetheriteExtension;
 import com.iafenvoy.netherite.network.UpdateNetheriteBeaconC2SPacket;
-import com.iafenvoy.netherite.screen.NetheriteBeaconScreenHandler;
+import com.iafenvoy.netherite.screen.handler.NetheriteBeaconScreenHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.architectury.networking.NetworkManager;
 import io.netty.buffer.Unpooled;

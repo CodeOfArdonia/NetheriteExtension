@@ -1,10 +1,11 @@
 package com.iafenvoy.netherite.registry;
 
 import com.iafenvoy.netherite.NetheriteExtension;
-import com.iafenvoy.netherite.client.render.DynamicItemRenderer;
-import com.iafenvoy.netherite.client.render.NetheriteBeaconBlockEntityRenderer;
-import com.iafenvoy.netherite.client.render.NetheritePlusBuiltinItemModelRenderer;
-import com.iafenvoy.netherite.client.render.NetheriteShulkerBoxBlockEntityRenderer;
+import com.iafenvoy.netherite.item.block.NetheriteShulkerBoxBlock;
+import com.iafenvoy.netherite.render.DynamicItemRenderer;
+import com.iafenvoy.netherite.render.NetheriteBeaconBlockEntityRenderer;
+import com.iafenvoy.netherite.render.NetheritePlusBuiltinItemModelRenderer;
+import com.iafenvoy.netherite.render.NetheriteShulkerBoxBlockEntityRenderer;
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import dev.architectury.registry.client.rendering.RenderTypeRegistry;
@@ -33,30 +34,14 @@ public final class NetheriteRenderers {
     }
 
     public static void registerBlockEntityRenderers() {
-        BlockEntityRendererRegistry.register(NetheriteBlocks.NETHERITE_SHULKER_BOX_ENTITY.get(), NetheriteShulkerBoxBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(NetheriteBlocks.NETHERITE_BEACON_BLOCK_ENTITY.get(), NetheriteBeaconBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.register(NetheriteBlockEntities.NETHERITE_SHULKER_BOX_ENTITY.get(), NetheriteShulkerBoxBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.register(NetheriteBlockEntities.NETHERITE_BEACON_BLOCK_ENTITY.get(), NetheriteBeaconBlockEntityRenderer::new);
     }
 
     public static void registerBuiltinItemRenderers(MinecraftClient client) {
         NetheritePlusBuiltinItemModelRenderer builtinItemModelRenderer = new NetheritePlusBuiltinItemModelRenderer(client.getBlockEntityRenderDispatcher(), client.getEntityModelLoader());
         DynamicItemRenderer dynamicItemRenderer = builtinItemModelRenderer::render;
-        DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_SHULKER_BOX.get(), dynamicItemRenderer);
-        DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_WHITE_SHULKER_BOX.get(), dynamicItemRenderer);
-        DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_ORANGE_SHULKER_BOX.get(), dynamicItemRenderer);
-        DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_MAGENTA_SHULKER_BOX.get(), dynamicItemRenderer);
-        DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_LIGHT_BLUE_SHULKER_BOX.get(), dynamicItemRenderer);
-        DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_YELLOW_SHULKER_BOX.get(), dynamicItemRenderer);
-        DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_LIME_SHULKER_BOX.get(), dynamicItemRenderer);
-        DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_PINK_SHULKER_BOX.get(), dynamicItemRenderer);
-        DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_GRAY_SHULKER_BOX.get(), dynamicItemRenderer);
-        DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_LIGHT_GRAY_SHULKER_BOX.get(), dynamicItemRenderer);
-        DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_CYAN_SHULKER_BOX.get(), dynamicItemRenderer);
-        DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_PURPLE_SHULKER_BOX.get(), dynamicItemRenderer);
-        DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_BLUE_SHULKER_BOX.get(), dynamicItemRenderer);
-        DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_BROWN_SHULKER_BOX.get(), dynamicItemRenderer);
-        DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_GREEN_SHULKER_BOX.get(), dynamicItemRenderer);
-        DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_RED_SHULKER_BOX.get(), dynamicItemRenderer);
-        DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_BLACK_SHULKER_BOX.get(), dynamicItemRenderer);
+        NetheriteShulkerBoxBlock.streamAll().forEach(x -> DynamicItemRenderer.RENDERERS.put(x.asItem(), dynamicItemRenderer));
         DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_TRIDENT.get(), dynamicItemRenderer);
         DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_SHIELD.get(), dynamicItemRenderer);
     }

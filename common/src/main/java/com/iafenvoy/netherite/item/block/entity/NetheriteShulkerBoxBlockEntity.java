@@ -1,6 +1,7 @@
-package com.iafenvoy.netherite.block.entity;
+package com.iafenvoy.netherite.item.block.entity;
 
-import com.iafenvoy.netherite.block.NetheriteShulkerBoxBlock;
+import com.iafenvoy.netherite.item.block.NetheriteShulkerBoxBlock;
+import com.iafenvoy.netherite.registry.NetheriteBlockEntities;
 import com.iafenvoy.netherite.registry.NetheriteBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -43,12 +44,12 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
     private float prevAnimationProgress;
 
     public NetheriteShulkerBoxBlockEntity(@Nullable DyeColor dyeColor, BlockPos blockPos, BlockState blockState) {
-        super(NetheriteBlocks.NETHERITE_SHULKER_BOX_ENTITY.get(), blockPos, blockState);
+        super(NetheriteBlockEntities.NETHERITE_SHULKER_BOX_ENTITY.get(), blockPos, blockState);
         this.cachedColor = dyeColor;
     }
 
     public NetheriteShulkerBoxBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(NetheriteBlocks.NETHERITE_SHULKER_BOX_ENTITY.get(), blockPos, blockState);
+        super(NetheriteBlockEntities.NETHERITE_SHULKER_BOX_ENTITY.get(), blockPos, blockState);
         this.cachedColor = ShulkerBoxBlock.getColor(blockState.getBlock());
     }
 
