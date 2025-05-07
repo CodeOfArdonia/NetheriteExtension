@@ -51,7 +51,7 @@ import java.util.stream.Stream;
 @SuppressWarnings("deprecation")
 public class NetheriteShulkerBoxBlock extends BlockWithEntity {
     public static final EnumProperty<Direction> FACING = FacingBlock.FACING;
-    public static final Identifier CONTENTS = new Identifier("contents");
+    public static final Identifier CONTENTS = Identifier.of(Identifier.DEFAULT_NAMESPACE, "contents");
     private static final Map<DyeColor, Block> BY_COLOR = new HashMap<>();
     private static final AbstractBlock.ContextPredicate CONTEXT_PREDICATE = (state, world, pos) -> !(world.getBlockEntity(pos) instanceof NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity) || shulkerBoxBlockEntity.suffocates();
     @Nullable
@@ -167,10 +167,11 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
     @Override
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
         ItemStack itemStack = super.getPickStack(world, pos, state);
-        NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) world.getBlockEntity(pos);
-        NbtCompound compoundTag = shulkerBoxBlockEntity.serializeInventory(new NbtCompound());
-        if (!compoundTag.isEmpty())
-            itemStack.setSubNbt("BlockEntityTag", compoundTag);
+        if (world.getBlockEntity(pos) instanceof NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity) {
+            NbtCompound compoundTag = shulkerBoxBlockEntity.serializeInventory(new NbtCompound());
+            if (!compoundTag.isEmpty())
+                itemStack.setSubNbt("BlockEntityTag", compoundTag);
+        }
         return itemStack;
     }
 

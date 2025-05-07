@@ -30,7 +30,7 @@ public abstract class TridentEntityMixin extends Entity {
             PacketByteBuf passedData = PacketBufferUtils.create();
             passedData.writeInt(Registries.ITEM.getRawId(tridentEntity.tridentStack.getItem()));
             for (ServerPlayerEntity player : this.getWorld().getServer().getPlayerManager().getPlayerList())
-                NetworkManager.sendToPlayer(player, new Identifier(NetheriteExtension.MOD_ID, "netherite_trident"), passedData);
+                NetworkManager.sendToPlayer(player, Identifier.of(NetheriteExtension.MOD_ID, "netherite_trident"), passedData);
         }
     }
 }

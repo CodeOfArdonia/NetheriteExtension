@@ -1,6 +1,8 @@
 package com.iafenvoy.netherite.mixin;
 
 import com.iafenvoy.netherite.registry.NetheriteItems;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.item.ItemModels;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedModel;
@@ -14,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import static com.iafenvoy.netherite.NetheriteExtension.MOD_ID;
 
+@Environment(EnvType.CLIENT)
 @Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin {
     @Shadow

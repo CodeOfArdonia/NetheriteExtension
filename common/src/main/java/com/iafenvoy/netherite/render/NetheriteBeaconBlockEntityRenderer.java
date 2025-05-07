@@ -20,7 +20,7 @@ import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class NetheriteBeaconBlockEntityRenderer implements BlockEntityRenderer<NetheriteBeaconBlockEntity> {
-    public static final Identifier BEAM_TEXTURE = new Identifier("textures/entity/beacon_beam.png");
+    public static final Identifier BEAM_TEXTURE = Identifier.of(Identifier.DEFAULT_NAMESPACE,"textures/entity/beacon_beam.png");
 
     public NetheriteBeaconBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
     }

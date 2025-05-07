@@ -15,9 +15,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;
-import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
-import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.render.entity.model.ShieldEntityModel;
 import net.minecraft.client.render.entity.model.TridentEntityModel;
 import net.minecraft.client.render.item.ItemRenderer;
@@ -37,37 +35,31 @@ import net.minecraft.util.math.BlockPos;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Supplier;
 
+@SuppressWarnings("deprecation")
 @Environment(EnvType.CLIENT)
 public class NetheritePlusBuiltinItemModelRenderer {
+    private static final Supplier<MinecraftClient> CLIENT = MinecraftClient::getInstance;
     private static final SpriteIdentifier NETHERITE_SHIELD_BASE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, Identifier.of(NetheriteExtension.MOD_ID, "entity/netherite_shield_base"));
     private static final SpriteIdentifier NETHERITE_SHIELD_BASE_NO_PATTERN = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, Identifier.of(NetheriteExtension.MOD_ID, "entity/netherite_shield_base_nopattern"));
     private static final NetheriteShulkerBoxBlockEntity RENDER_NETHERITE_SHULKER_BOX = new NetheriteShulkerBoxBlockEntity(BlockPos.ORIGIN, NetheriteBlocks.NETHERITE_SHULKER_BOX.get().getDefaultState());
     private static final NetheriteShulkerBoxBlockEntity[] RENDER_NETHERITE_SHULKER_BOX_DYED = Arrays.stream(DyeColor.values()).sorted(Comparator.comparingInt(DyeColor::getId)).map(dyeColor -> new NetheriteShulkerBoxBlockEntity(dyeColor, BlockPos.ORIGIN, NetheriteBlocks.NETHERITE_SHULKER_BOX.get().getDefaultState())).toArray(NetheriteShulkerBoxBlockEntity[]::new);
     private static ShieldEntityModel modelNetheriteShield;
-    private final EntityModelLoader entityModelLoader;
-    private final BlockEntityRenderDispatcher blockEntityRenderDispatcher;
-
-    public NetheritePlusBuiltinItemModelRenderer(BlockEntityRenderDispatcher blockEntityRenderDispatcher, EntityModelLoader entityModelLoader) {
-        this.blockEntityRenderDispatcher = blockEntityRenderDispatcher;
-        this.entityModelLoader = entityModelLoader;
-    }
 
     public void loadShieldModel() {
-        modelNetheriteShield = new ShieldEntityModel(this.entityModelLoader.getModelPart(NetheriteRenderers.NETHERITE_SHIELD_MODEL_LAYER));
+        modelNetheriteShield = new ShieldEntityModel(CLIENT.get().getEntityModelLoader().getModelPart(NetheriteRenderers.NETHERITE_SHIELD_MODEL_LAYER));
     }
 
     public static void renderTrident(TridentEntityModel model, ItemStack stack, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         if (mode.getIndex() >= 5) {
             matrices.pop();
-            MinecraftClient.getInstance().getItemRenderer().renderItem(
-                    stack, mode, false, matrices, vertexConsumers, light, overlay,
-                    MinecraftClient.getInstance().getBakedModelManager().getModel(new ModelIdentifier(NetheriteExtension.MOD_ID, "netherite_trident", "inventory")));
+            CLIENT.get().getItemRenderer().renderItem(stack, mode, false, matrices, vertexConsumers, light, overlay, CLIENT.get().getBakedModelManager().getModel(new ModelIdentifier(NetheriteExtension.MOD_ID, "netherite_trident", "inventory")));
             matrices.push();
         } else {
             matrices.push();
             matrices.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer consumer = ItemRenderer.getDirectItemGlintConsumer(vertexConsumers, model.getLayer(new Identifier(NetheriteExtension.MOD_ID, "textures/entity/netherite_trident.png")), false, stack.hasGlint());
+            VertexConsumer consumer = ItemRenderer.getDirectItemGlintConsumer(vertexConsumers, model.getLayer(Identifier.of(NetheriteExtension.MOD_ID, "textures/entity/netherite_trident.png")), false, stack.hasGlint());
             model.render(matrices, consumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
             matrices.pop();
         }
@@ -75,7 +67,7 @@ public class NetheritePlusBuiltinItemModelRenderer {
 
     public void render(ItemStack itemStack, ModelTransformationMode transformType, MatrixStack matrices, VertexConsumerProvider vertices, int light, int overlay) {
         if (itemStack.isOf(NetheriteItems.NETHERITE_TRIDENT.get()))
-            renderTrident(new TridentEntityModel(this.entityModelLoader.getModelPart(EntityModelLayers.TRIDENT)), itemStack, transformType, matrices, vertices, light, overlay);
+            renderTrident(new TridentEntityModel(CLIENT.get().getEntityModelLoader().getModelPart(EntityModelLayers.TRIDENT)), itemStack, transformType, matrices, vertices, light, overlay);
         else if (itemStack.isOf(NetheriteItems.NETHERITE_SHIELD.get())) {
             if (modelNetheriteShield == null) loadShieldModel();
             boolean bl = BlockItem.getBlockEntityNbt(itemStack) != null;
@@ -95,7 +87,7 @@ public class NetheritePlusBuiltinItemModelRenderer {
         } else if (itemStack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof NetheriteShulkerBoxBlock block) {
             DyeColor dyecolor = block.getColor();
             NetheriteShulkerBoxBlockEntity entity = dyecolor == null ? RENDER_NETHERITE_SHULKER_BOX : RENDER_NETHERITE_SHULKER_BOX_DYED[dyecolor.getId()];
-            this.blockEntityRenderDispatcher.renderEntity(entity, matrices, vertices, light, overlay);
+            CLIENT.get().getBlockEntityRenderDispatcher().renderEntity(entity, matrices, vertices, light, overlay);
         }
     }
 }

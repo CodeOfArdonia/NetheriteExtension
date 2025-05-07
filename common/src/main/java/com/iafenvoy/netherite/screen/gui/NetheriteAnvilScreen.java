@@ -18,7 +18,7 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHandler> {
-    private static final Identifier TEXTURE = new Identifier("textures/gui/container/anvil.png");
+    private static final Identifier TEXTURE = Identifier.of(Identifier.DEFAULT_NAMESPACE,"textures/gui/container/anvil.png");
     private static final Text TOO_EXPENSIVE_TEXT = Text.translatable("container.repair.expensive");
     private final PlayerEntity player;
     private TextFieldWidget nameField;

@@ -9,8 +9,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -55,6 +53,7 @@ public class NetheriteTridentEntity extends TridentEntity {
             BlockPos blockPos = entity.getBlockPos();
             if (this.getWorld().isSkyVisible(blockPos)) {
                 LightningEntity lightningEntity = EntityType.LIGHTNING_BOLT.create(this.getWorld());
+                assert lightningEntity != null;
                 lightningEntity.refreshPositionAfterTeleport(Vec3d.ofBottomCenter(blockPos));
                 lightningEntity.setChanneler(entity2 instanceof ServerPlayerEntity ? (ServerPlayerEntity) entity2 : null);
                 this.getWorld().spawnEntity(lightningEntity);

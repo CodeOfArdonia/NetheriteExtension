@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 import java.util.Optional;
 
 public class UpdateNetheriteBeaconC2SPacket extends UpdateBeaconC2SPacket {
-    public static final Identifier ID = new Identifier(NetheriteExtension.MOD_ID, "netherite_beacon_update_packet");
+    public static final Identifier ID = Identifier.of(NetheriteExtension.MOD_ID, "netherite_beacon_update_packet");
 
     private final Optional<StatusEffect> tertiaryEffect;
 

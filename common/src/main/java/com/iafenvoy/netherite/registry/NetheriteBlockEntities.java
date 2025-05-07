@@ -9,12 +9,11 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
 
 public final class NetheriteBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> REGISTRY = DeferredRegister.create(NetheriteExtension.MOD_ID, RegistryKeys.BLOCK_ENTITY_TYPE);
 
-    public static final RegistrySupplier<BlockEntityType<NetheriteShulkerBoxBlockEntity>> NETHERITE_SHULKER_BOX_ENTITY = REGISTRY.register(new Identifier(NetheriteExtension.MOD_ID, "netherite_shulker_box"), () -> BlockEntityType.Builder.create(NetheriteShulkerBoxBlockEntity::new, NetheriteShulkerBoxBlock.streamAll().toArray(Block[]::new)).build(null));
-    public static final RegistrySupplier<BlockEntityType<NetheriteBeaconBlockEntity>> NETHERITE_BEACON_BLOCK_ENTITY = REGISTRY.register(new Identifier(NetheriteExtension.MOD_ID, "netherite_beacon"), () -> BlockEntityType.Builder.create(NetheriteBeaconBlockEntity::new, NetheriteBlocks.NETHERITE_BEACON.get()).build(null));
+    public static final RegistrySupplier<BlockEntityType<NetheriteShulkerBoxBlockEntity>> NETHERITE_SHULKER_BOX_ENTITY = REGISTRY.register("netherite_shulker_box", () -> BlockEntityType.Builder.create(NetheriteShulkerBoxBlockEntity::new, NetheriteShulkerBoxBlock.streamAll().toArray(Block[]::new)).build(null));
+    public static final RegistrySupplier<BlockEntityType<NetheriteBeaconBlockEntity>> NETHERITE_BEACON_BLOCK_ENTITY = REGISTRY.register("netherite_beacon", () -> BlockEntityType.Builder.create(NetheriteBeaconBlockEntity::new, NetheriteBlocks.NETHERITE_BEACON.get()).build(null));
 
 }

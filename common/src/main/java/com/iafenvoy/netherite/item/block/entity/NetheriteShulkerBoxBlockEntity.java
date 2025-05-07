@@ -2,7 +2,6 @@ package com.iafenvoy.netherite.item.block.entity;
 
 import com.iafenvoy.netherite.item.block.NetheriteShulkerBoxBlock;
 import com.iafenvoy.netherite.registry.NetheriteBlockEntities;
-import com.iafenvoy.netherite.registry.NetheriteBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShulkerBoxBlock;
@@ -141,6 +140,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
             if (this.viewerCount < 0) this.viewerCount = 0;
 
             ++this.viewerCount;
+            assert this.world != null;
             this.world.addSyncedBlockEvent(this.pos, this.getCachedState().getBlock(), 1, this.viewerCount);
             if (this.viewerCount == 1) {
                 this.world.emitGameEvent(player, GameEvent.CONTAINER_OPEN, this.pos);
@@ -153,6 +153,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
     public void onClose(PlayerEntity player) {
         if (!player.isSpectator()) {
             --this.viewerCount;
+            assert this.world != null;
             this.world.addSyncedBlockEvent(this.pos, this.getCachedState().getBlock(), 1, this.viewerCount);
             if (this.viewerCount <= 0) {
                 this.world.emitGameEvent(player, GameEvent.CONTAINER_CLOSE, this.pos);
