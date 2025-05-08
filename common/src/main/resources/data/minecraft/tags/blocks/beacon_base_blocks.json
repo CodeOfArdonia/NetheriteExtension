@@ -1,9 +1,6 @@
 {
   "replace": false,
   "values": [
-    {
-      "id": "netherite_ext:fake_netherite_block",
-      "required": false
-    }
+    "netherite_ext:fake_netherite_block"
   ]
 }
