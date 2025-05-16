@@ -15,6 +15,7 @@
     "TridentEntityMixin"
   ],
   "client": [
+    "ArmorFeatureRendererMixin",
     "BackgroundRendererMixin",
     "BeaconScreenMixin",
     "BuiltinModelItemRendererMixin",
