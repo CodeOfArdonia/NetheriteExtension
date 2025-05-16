@@ -19,6 +19,7 @@
     "BackgroundRendererMixin",
     "BeaconScreenMixin",
     "BuiltinModelItemRendererMixin",
+    "CapeFeatureRendererMixin",
     "ClientPlayNetworkHandlerMixin",
     "ElytraFeatureRendererMixin",
     "ItemRendererMixin",
