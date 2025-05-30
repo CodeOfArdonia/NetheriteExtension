@@ -21,7 +21,6 @@
     "BuiltinModelItemRendererMixin",
     "CapeFeatureRendererMixin",
     "ClientPlayNetworkHandlerMixin",
-    "ElytraFeatureRendererMixin",
     "ItemRendererMixin",
     "TridentEntityRendererMixin"
   ],

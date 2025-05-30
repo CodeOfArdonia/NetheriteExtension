@@ -8,6 +8,7 @@ loom {
         convertAccessWideners = true
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
         mixinConfig "netherite_ext.mixins.json"
+        mixinConfig "netherite_ext-forge.mixins.json"
     }
 }
 
