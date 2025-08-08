@@ -22,7 +22,6 @@ public class NetheriteExtensionClient {
         NetheriteRenderers.registerModelPredicates();
         NetheriteRenderers.registerBlockEntityRenderers();
         NetheriteRenderers.registerBuiltinItemRenderers();
-        NetheriteRenderers.registerRenderTypes();
         NetheriteScreenHandlers.initializeClient();
         NetworkManager.registerReceiver(NetworkManager.Side.S2C, Identifier.of(NetheriteExtension.MOD_ID, "netherite_trident"), (buf, ctx) -> TRIDENT_QUEUE.add(buf.readInt()));
     }

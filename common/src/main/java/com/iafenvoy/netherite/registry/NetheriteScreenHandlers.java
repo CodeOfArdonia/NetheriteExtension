@@ -2,9 +2,7 @@ package com.iafenvoy.netherite.registry;
 
 import com.iafenvoy.netherite.NetheriteExtension;
 import com.iafenvoy.netherite.screen.gui.NetheriteAnvilScreen;
-import com.iafenvoy.netherite.screen.gui.NetheriteBeaconScreen;
 import com.iafenvoy.netherite.screen.handler.NetheriteAnvilScreenHandler;
-import com.iafenvoy.netherite.screen.handler.NetheriteBeaconScreenHandler;
 import dev.architectury.registry.menu.MenuRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -17,7 +15,6 @@ public final class NetheriteScreenHandlers {
     public static final DeferredRegister<ScreenHandlerType<?>> REGISTRY = DeferredRegister.create(NetheriteExtension.MOD_ID, RegistryKeys.SCREEN_HANDLER);
 
     public static final RegistrySupplier<ScreenHandlerType<NetheriteAnvilScreenHandler>> NETHERITE_ANVIL = register("netherite_anvil", NetheriteAnvilScreenHandler::new);
-    public static final RegistrySupplier<ScreenHandlerType<NetheriteBeaconScreenHandler>> NETHERITE_BEACON = register("netherite_beacon", NetheriteBeaconScreenHandler::new);
 
     public static <T extends ScreenHandler> RegistrySupplier<ScreenHandlerType<T>> register(String id, ScreenHandlerType.Factory<T> factory) {
         return REGISTRY.register(id, () -> new ScreenHandlerType<>(factory, FeatureSet.empty()));
@@ -25,6 +22,5 @@ public final class NetheriteScreenHandlers {
 
     public static void initializeClient() {
         MenuRegistry.registerScreenFactory(NetheriteScreenHandlers.NETHERITE_ANVIL.get(), NetheriteAnvilScreen::new);
-        MenuRegistry.registerScreenFactory(NetheriteScreenHandlers.NETHERITE_BEACON.get(), NetheriteBeaconScreen::new);
     }
 }

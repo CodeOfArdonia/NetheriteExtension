@@ -1,8 +1,6 @@
 {
   "block.netherite_ext.fake_netherite_block": "Fake Netherite Block",
   "block.netherite_ext.netherite_anvil": "Netherite Anvil",
-  "block.netherite_ext.netherite_beacon": "Netherite Beacon",
-  "block.netherite_ext.netherite_beacon.tertiary": "Tertiary Power",
   "block.netherite_ext.netherite_black_shulker_box": "Black Netherite Shulker Box",
   "block.netherite_ext.netherite_blue_shulker_box": "Blue Netherite Shulker Box",
   "block.netherite_ext.netherite_brown_shulker_box": "Brown Netherite Shulker Box",
@@ -21,7 +19,6 @@
   "block.netherite_ext.netherite_white_shulker_box": "White Netherite Shulker Box",
   "block.netherite_ext.netherite_yellow_shulker_box": "Yellow Netherite Shulker Box",
   "container.netheriteShulkerBox": "Netherite Shulker Box",
-  "container.netherite_beacon": "Netherite Beacon",
   "effect.netherite_ext.lava_vision": "Lava Vision",
   "item.netherite_ext.netherite_bow": "Netherite Bow",
   "item.netherite_ext.netherite_crossbow": "Netherite Crossbow",

@@ -3,16 +3,13 @@ package com.iafenvoy.netherite.registry;
 import com.iafenvoy.netherite.NetheriteExtension;
 import com.iafenvoy.netherite.item.block.NetheriteShulkerBoxBlock;
 import com.iafenvoy.netherite.render.DynamicItemRenderer;
-import com.iafenvoy.netherite.render.NetheriteBeaconBlockEntityRenderer;
 import com.iafenvoy.netherite.render.NetheritePlusBuiltinItemModelRenderer;
 import com.iafenvoy.netherite.render.NetheriteShulkerBoxBlockEntityRenderer;
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
-import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import dev.architectury.registry.item.ItemPropertiesRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.ShieldEntityModel;
 import net.minecraft.client.util.ModelIdentifier;
@@ -55,7 +52,6 @@ public final class NetheriteRenderers {
 
     public static void registerBlockEntityRenderers() {
         BlockEntityRendererRegistry.register(NetheriteBlockEntities.NETHERITE_SHULKER_BOX_ENTITY.get(), NetheriteShulkerBoxBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(NetheriteBlockEntities.NETHERITE_BEACON_BLOCK_ENTITY.get(), NetheriteBeaconBlockEntityRenderer::new);
     }
 
     public static void registerBuiltinItemRenderers() {
@@ -64,10 +60,6 @@ public final class NetheriteRenderers {
         NetheriteShulkerBoxBlock.streamAll().forEach(x -> DynamicItemRenderer.RENDERERS.put(x.asItem(), dynamicItemRenderer));
         DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_TRIDENT.get(), dynamicItemRenderer);
         DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_SHIELD.get(), dynamicItemRenderer);
-    }
-
-    public static void registerRenderTypes() {
-        RenderTypeRegistry.register(RenderLayer.getCutout(), NetheriteBlocks.NETHERITE_BEACON.get());
     }
 
     public static void registerModel(Consumer<Identifier> consumer) {

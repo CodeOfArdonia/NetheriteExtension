@@ -8,7 +8,7 @@ public final class NetheriteExtensionConfig {
     public GraphicsConfigs graphics = new GraphicsConfigs();
 
     public static class AnvilConfigs {
-        public double xp_reduction = 0.5;
+        public double xp_ratio = 0.5;
     }
 
     public static class DamageConfigs {

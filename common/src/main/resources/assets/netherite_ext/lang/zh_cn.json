@@ -1,8 +1,6 @@
 {
   "block.netherite_ext.fake_netherite_block": "仿下界合金块",
   "block.netherite_ext.netherite_anvil": "下界合金铁砧",
-  "block.netherite_ext.netherite_beacon": "下界合金信标",
-  "block.netherite_ext.netherite_beacon.tertiary": "副效果",
   "block.netherite_ext.netherite_black_shulker_box": "黑色下界合金潜影盒",
   "block.netherite_ext.netherite_blue_shulker_box": "蓝色下界合金潜影盒",
   "block.netherite_ext.netherite_brown_shulker_box": "棕色下界合金潜影盒",
@@ -21,7 +19,6 @@
   "block.netherite_ext.netherite_white_shulker_box": "白色下界合金潜影盒",
   "block.netherite_ext.netherite_yellow_shulker_box": "黄色下界合金潜影盒",
   "container.netheriteShulkerBox": "下界合金潜影盒",
-  "container.netherite_beacon": "下界合金信标",
   "effect.netherite_ext.lava_vision": "岩浆夜视",
   "item.netherite_ext.netherite_bow": "下界合金弓",
   "item.netherite_ext.netherite_crossbow": "下界合金弩",

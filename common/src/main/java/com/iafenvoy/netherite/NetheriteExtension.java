@@ -1,10 +1,7 @@
 package com.iafenvoy.netherite;
 
-import com.iafenvoy.netherite.network.UpdateNetheriteBeaconC2SPacket;
 import com.iafenvoy.netherite.registry.*;
-import com.iafenvoy.netherite.screen.handler.NetheriteBeaconScreenHandler;
 import com.mojang.logging.LogUtils;
-import dev.architectury.networking.NetworkManager;
 import org.slf4j.Logger;
 
 public class NetheriteExtension {
@@ -23,12 +20,5 @@ public class NetheriteExtension {
 
     public static void process() {
         NetheriteItems.init();
-        NetworkManager.registerReceiver(NetworkManager.Side.C2S, UpdateNetheriteBeaconC2SPacket.ID, (buf, ctx) -> {
-            UpdateNetheriteBeaconC2SPacket packet = new UpdateNetheriteBeaconC2SPacket(buf);
-            ctx.queue(() -> {
-                if (ctx.getPlayer().currentScreenHandler instanceof NetheriteBeaconScreenHandler screenHandler)
-                    screenHandler.setEffects(packet.getPrimaryEffectId(), packet.getSecondaryEffectId(), packet.getTertiaryEffect());
-            });
-        });
     }
 }

@@ -2,7 +2,6 @@ package com.iafenvoy.netherite.registry;
 
 import com.iafenvoy.netherite.NetheriteExtension;
 import com.iafenvoy.netherite.item.block.NetheriteAnvilBlock;
-import com.iafenvoy.netherite.item.block.NetheriteBeaconBlock;
 import com.iafenvoy.netherite.item.block.NetheriteShulkerBoxBlock;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -44,7 +43,6 @@ public final class NetheriteBlocks {
     public static final RegistrySupplier<Block> NETHERITE_BLACK_SHULKER_BOX = register("netherite_black_shulker_box", () -> new NetheriteShulkerBoxBlock(DyeColor.BLACK), block -> new BlockItem(block, NETHERITE_SHULKER_BOX_ITEM_SETTINGS));
     public static final RegistrySupplier<Block> FAKE_NETHERITE_BLOCK = register("fake_netherite_block", () -> new Block(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).mapColor(MapColor.BLACK).sounds(BlockSoundGroup.NETHERITE)), block -> new BlockItem(block, new Item.Settings().fireproof().arch$tab(NetheriteItemGroups.MAIN)));
     public static final RegistrySupplier<Block> NETHERITE_ANVIL_BLOCK = register("netherite_anvil", NetheriteAnvilBlock::new, block -> new BlockItem(block, new Item.Settings().fireproof().arch$tab(NetheriteItemGroups.MAIN)));
-    public static final RegistrySupplier<Block> NETHERITE_BEACON = register("netherite_beacon", NetheriteBeaconBlock::new, block -> new BlockItem(block, new Item.Settings().fireproof().arch$tab(NetheriteItemGroups.MAIN)));
 
     public static <T extends Block> RegistrySupplier<T> register(String id, Supplier<T> supplier, Function<T, Item> itemConstructor) {
         RegistrySupplier<T> r = REGISTRY.register(id, supplier);

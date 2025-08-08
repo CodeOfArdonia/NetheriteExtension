@@ -22,3 +22,6 @@ accessible field net/minecraft/item/TridentItem attributeModifiers Lcom/google/c
 accessible field net/minecraft/entity/attribute/EntityAttributeModifier value D
 mutable field net/minecraft/entity/attribute/EntityAttributeModifier value D
 accessible class net/minecraft/client/render/BackgroundRenderer$FogData
+accessible field net/minecraft/screen/AnvilScreenHandler repairItemUsage I
+accessible field net/minecraft/screen/AnvilScreenHandler levelCost Lnet/minecraft/screen/Property;
+accessible field net/minecraft/screen/AnvilScreenHandler newItemName Ljava/lang/String;
