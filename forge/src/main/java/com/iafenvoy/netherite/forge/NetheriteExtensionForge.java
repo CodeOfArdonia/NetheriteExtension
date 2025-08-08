@@ -1,7 +1,6 @@
 package com.iafenvoy.netherite.forge;
 
 import com.iafenvoy.netherite.NetheriteExtension;
-import com.iafenvoy.netherite.NetheriteExtensionClient;
 import dev.architectury.platform.Platform;
 import dev.architectury.platform.forge.EventBuses;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,8 +16,8 @@ public final class NetheriteExtensionForge {
         EventBuses.registerModEventBus(NetheriteExtension.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
 
         NetheriteExtension.init();
-        if (Platform.getEnv() == Dist.CLIENT)
-            NetheriteExtensionClient.init();
+        if (Platform.getEnv() == Dist.CLIENT) {
+        }
     }
 
     @SubscribeEvent

@@ -76,16 +76,19 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
         return new ShulkerBoxScreenHandler(syncId, playerInventory, this);
     }
 
-    public void deserializeInventory(NbtCompound tag) {
+    @Override
+    public void readNbt(NbtCompound tag) {
+        super.readNbt(tag);
         this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
         if (!this.deserializeLootTable(tag) && tag.contains("Items", 9))
             Inventories.readNbt(tag, this.inventory);
     }
 
     @Override
-    public void readNbt(NbtCompound tag) {
-        super.readNbt(tag);
-        this.deserializeInventory(tag);
+    public void writeNbt(NbtCompound tag) {
+        super.writeNbt(tag);
+        if (!this.serializeLootTable(tag))
+            Inventories.writeNbt(tag, this.inventory, false);
     }
 
     public float getAnimationProgress(float f) {
@@ -108,11 +111,6 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
     public Box getBoundingBox(Direction openDirection) {
         float f = this.getAnimationProgress(1.0F);
         return VoxelShapes.fullCube().getBoundingBox().stretch(0.5F * f * openDirection.getOffsetX(), 0.5F * f * openDirection.getOffsetY(), 0.5F * f * openDirection.getOffsetZ());
-    }
-
-    private Box getCollisionBox(Direction facing) {
-        Direction direction = facing.getOpposite();
-        return this.getBoundingBox(facing).shrink(direction.getOffsetX(), direction.getOffsetY(), direction.getOffsetZ());
     }
 
     public DyeColor getColor() {
@@ -195,12 +193,6 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
         }
     }
 
-    public NbtCompound serializeInventory(NbtCompound tag) {
-        if (!this.serializeLootTable(tag))
-            Inventories.readNbt(tag, this.inventory);
-        return tag;
-    }
-
     @Override
     public void setStack(int slot, ItemStack stack) {
         super.setStack(slot, stack);
@@ -213,12 +205,6 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 
     public boolean suffocates() {
         return this.animationStage == AnimationStage.CLOSED;
-    }
-
-    @Override
-    public void writeNbt(NbtCompound tag) {
-        super.writeNbt(tag);
-        this.serializeInventory(tag);
     }
 
     private void updateAnimation(World world, BlockPos pos, BlockState state) {

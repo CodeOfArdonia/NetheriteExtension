@@ -5,13 +5,10 @@ import com.iafenvoy.netherite.item.block.NetheriteShulkerBoxBlock;
 import com.iafenvoy.netherite.render.DynamicItemRenderer;
 import com.iafenvoy.netherite.render.NetheritePlusBuiltinItemModelRenderer;
 import com.iafenvoy.netherite.render.NetheriteShulkerBoxBlockEntityRenderer;
-import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import dev.architectury.registry.item.ItemPropertiesRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.client.render.entity.model.ShieldEntityModel;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.CrossbowItem;
@@ -26,12 +23,6 @@ import static com.iafenvoy.netherite.registry.NetheriteItems.*;
 
 @Environment(EnvType.CLIENT)
 public final class NetheriteRenderers {
-    public static final EntityModelLayer NETHERITE_SHIELD_MODEL_LAYER = new EntityModelLayer(Identifier.of(NetheriteExtension.MOD_ID, "netherite_shield"), "main");
-
-    public static void registerModelLayers() {
-        EntityModelLayerRegistry.register(NETHERITE_SHIELD_MODEL_LAYER, ShieldEntityModel::getTexturedModelData);
-    }
-
     public static void registerModelPredicates() {
         ItemPropertiesRegistry.register(NETHERITE_ELYTRA.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "broken"), (itemStack, clientWorld, livingEntity, i) -> ElytraItem.isUsable(itemStack) ? 0.0F : 1.0F);
         ItemPropertiesRegistry.register(NETHERITE_FISHING_ROD.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "cast"), (itemStack, clientWorld, livingEntity, i) -> {

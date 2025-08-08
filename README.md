@@ -4,9 +4,7 @@ The high version fabric port of [Netherite Plus Mod](https://github.com/OroArmor
 
 Origin Mod Links: [Curseforge](https://www.curseforge.com/minecraft/mc-mods/netherite-plus-mod) | [Modrinth](https://modrinth.com/mod/netherite-plus-mod)
 
----
-
-#### What we have ported:
+## What we have ported:
 
 `Netherite Shulker Boxes`
 
@@ -25,7 +23,5 @@ Origin Mod Links: [Curseforge](https://www.curseforge.com/minecraft/mc-mods/neth
 `Netherite Tridents`
 
 `Lava Vision`
-
-`Advancements`
 
 `Statistics`

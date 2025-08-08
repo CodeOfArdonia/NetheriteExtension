@@ -5,7 +5,6 @@ import com.iafenvoy.netherite.item.block.NetheriteShulkerBoxBlock;
 import com.iafenvoy.netherite.item.block.entity.NetheriteShulkerBoxBlockEntity;
 import com.iafenvoy.netherite.registry.NetheriteBlocks;
 import com.iafenvoy.netherite.registry.NetheriteItems;
-import com.iafenvoy.netherite.registry.NetheriteRenderers;
 import com.mojang.datafixers.util.Pair;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -47,10 +46,6 @@ public class NetheritePlusBuiltinItemModelRenderer {
     private static final NetheriteShulkerBoxBlockEntity[] RENDER_NETHERITE_SHULKER_BOX_DYED = Arrays.stream(DyeColor.values()).sorted(Comparator.comparingInt(DyeColor::getId)).map(dyeColor -> new NetheriteShulkerBoxBlockEntity(dyeColor, BlockPos.ORIGIN, NetheriteBlocks.NETHERITE_SHULKER_BOX.get().getDefaultState())).toArray(NetheriteShulkerBoxBlockEntity[]::new);
     private static ShieldEntityModel modelNetheriteShield;
 
-    public void loadShieldModel() {
-        modelNetheriteShield = new ShieldEntityModel(CLIENT.get().getEntityModelLoader().getModelPart(NetheriteRenderers.NETHERITE_SHIELD_MODEL_LAYER));
-    }
-
     public static void renderTrident(TridentEntityModel model, ItemStack stack, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         if (mode.getIndex() >= 5) {
             matrices.pop();
@@ -69,7 +64,8 @@ public class NetheritePlusBuiltinItemModelRenderer {
         if (itemStack.isOf(NetheriteItems.NETHERITE_TRIDENT.get()))
             renderTrident(new TridentEntityModel(CLIENT.get().getEntityModelLoader().getModelPart(EntityModelLayers.TRIDENT)), itemStack, transformType, matrices, vertices, light, overlay);
         else if (itemStack.isOf(NetheriteItems.NETHERITE_SHIELD.get())) {
-            if (modelNetheriteShield == null) loadShieldModel();
+            if (modelNetheriteShield == null)
+                modelNetheriteShield = new ShieldEntityModel(CLIENT.get().getEntityModelLoader().getModelPart(EntityModelLayers.SHIELD));
             boolean bl = BlockItem.getBlockEntityNbt(itemStack) != null;
             matrices.push();
             matrices.scale(1.0F, -1.0F, -1.0F);

@@ -14,10 +14,6 @@ import java.util.Queue;
 public class NetheriteExtensionClient {
     public static final Queue<Integer> TRIDENT_QUEUE = new LinkedList<>();
 
-    public static void init() {
-        NetheriteRenderers.registerModelLayers();
-    }
-
     public static void process() {
         NetheriteRenderers.registerModelPredicates();
         NetheriteRenderers.registerBlockEntityRenderers();

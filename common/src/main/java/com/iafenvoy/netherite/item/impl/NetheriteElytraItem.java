@@ -8,7 +8,7 @@ import net.minecraft.item.Items;
 
 public class NetheriteElytraItem extends ArmorItem {
     protected NetheriteElytraItem(Settings settings) {
-        super(NetheriteElytraArmorMaterials.NETHERITE_ELYTRA_MATERIAL, Type.CHESTPLATE, settings);
+        super(NetheriteElytraArmorMaterials.INSTANCE, Type.CHESTPLATE, settings);
     }
 
     @ExpectPlatform

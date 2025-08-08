@@ -167,11 +167,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
     @Override
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
         ItemStack itemStack = super.getPickStack(world, pos, state);
-        if (world.getBlockEntity(pos) instanceof NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity) {
-            NbtCompound compoundTag = shulkerBoxBlockEntity.serializeInventory(new NbtCompound());
-            if (!compoundTag.isEmpty())
-                itemStack.setSubNbt("BlockEntityTag", compoundTag);
-        }
+        world.getBlockEntity(pos, BlockEntityType.SHULKER_BOX).ifPresent((blockEntity) -> blockEntity.setStackNbt(itemStack));
         return itemStack;
     }
 
@@ -198,19 +194,18 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof NetheriteShulkerBoxBlockEntity netheriteShulkerBoxBlockEntity) {
-            if (!world.isClient && !netheriteShulkerBoxBlockEntity.isEmpty()) {
+        if (blockEntity instanceof NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity) {
+            if (!world.isClient && player.isCreative() && !shulkerBoxBlockEntity.isEmpty()) {
                 ItemStack itemStack = getItemStack(this.getColor());
-                NbtCompound compoundTag = netheriteShulkerBoxBlockEntity.serializeInventory(new NbtCompound());
-                if (!compoundTag.isEmpty())
-                    itemStack.setSubNbt("BlockEntityTag", compoundTag);
-                if (netheriteShulkerBoxBlockEntity.hasCustomName())
-                    itemStack.setCustomName(netheriteShulkerBoxBlockEntity.getCustomName());
-                ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, itemStack);
+                blockEntity.setStackNbt(itemStack);
+                if (shulkerBoxBlockEntity.hasCustomName())
+                    itemStack.setCustomName(shulkerBoxBlockEntity.getCustomName());
+                ItemEntity itemEntity = new ItemEntity(world, (double) pos.getX() + (double) 0.5F, (double) pos.getY() + (double) 0.5F, (double) pos.getZ() + (double) 0.5F, itemStack);
                 itemEntity.setToDefaultPickupDelay();
                 world.spawnEntity(itemEntity);
-            } else
-                netheriteShulkerBoxBlockEntity.checkLootInteraction(player);
+            } else {
+                shulkerBoxBlockEntity.checkLootInteraction(player);
+            }
         }
         super.onBreak(world, pos, state, player);
     }
