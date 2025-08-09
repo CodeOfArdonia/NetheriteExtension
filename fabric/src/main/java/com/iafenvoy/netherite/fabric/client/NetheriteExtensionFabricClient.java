@@ -11,6 +11,7 @@ import net.fabricmc.fabric.impl.client.model.ModelLoadingRegistryImpl;
 public final class NetheriteExtensionFabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        NetheriteExtensionClient.init();
         NetheriteExtensionClient.process();
         ModelLoadingRegistryImpl.INSTANCE.registerModelProvider((manager, out) -> NetheriteRenderers.registerModel(out));
     }

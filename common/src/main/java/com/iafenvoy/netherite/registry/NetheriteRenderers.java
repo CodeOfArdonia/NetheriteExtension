@@ -1,10 +1,9 @@
 package com.iafenvoy.netherite.registry;
 
 import com.iafenvoy.netherite.NetheriteExtension;
-import com.iafenvoy.netherite.item.block.NetheriteShulkerBoxBlock;
-import com.iafenvoy.netherite.render.DynamicItemRenderer;
-import com.iafenvoy.netherite.render.NetheritePlusBuiltinItemModelRenderer;
 import com.iafenvoy.netherite.render.NetheriteShulkerBoxBlockEntityRenderer;
+import com.iafenvoy.netherite.render.NetheriteTridentEntityRenderer;
+import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import dev.architectury.registry.item.ItemPropertiesRegistry;
 import net.fabricmc.api.EnvType;
@@ -23,6 +22,10 @@ import static com.iafenvoy.netherite.registry.NetheriteItems.*;
 
 @Environment(EnvType.CLIENT)
 public final class NetheriteRenderers {
+    public static void registerEntityRenderers() {
+        EntityRendererRegistry.register(NetheriteEntities.NETHERITE_TRIDENT, NetheriteTridentEntityRenderer::new);
+    }
+
     public static void registerModelPredicates() {
         ItemPropertiesRegistry.register(NETHERITE_ELYTRA.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "broken"), (itemStack, clientWorld, livingEntity, i) -> ElytraItem.isUsable(itemStack) ? 0.0F : 1.0F);
         ItemPropertiesRegistry.register(NETHERITE_FISHING_ROD.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "cast"), (itemStack, clientWorld, livingEntity, i) -> {
@@ -39,18 +42,11 @@ public final class NetheriteRenderers {
         ItemPropertiesRegistry.register(NETHERITE_CROSSBOW.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "charged"), (itemStack, clientWorld, livingEntity, i) -> livingEntity == null ? 0.0F : CrossbowItem.isCharged(itemStack) ? 1.0F : 0.0F);
         ItemPropertiesRegistry.register(NETHERITE_CROSSBOW.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "firework"), (itemStack, clientWorld, livingEntity, i) -> livingEntity == null ? 0.0F : CrossbowItem.isCharged(itemStack) && CrossbowItem.hasProjectile(itemStack, Items.FIREWORK_ROCKET) ? 1.0F : 0.0F);
         ItemPropertiesRegistry.register(NETHERITE_TRIDENT.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "throwing"), (itemStack, clientWorld, livingEntity, i) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getActiveItem() == itemStack ? 1.0F : 0.0F);
+        ItemPropertiesRegistry.register(NETHERITE_SHIELD.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "blocking"), (stack, world, entity, seed) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F);
     }
 
     public static void registerBlockEntityRenderers() {
         BlockEntityRendererRegistry.register(NetheriteBlockEntities.NETHERITE_SHULKER_BOX_ENTITY.get(), NetheriteShulkerBoxBlockEntityRenderer::new);
-    }
-
-    public static void registerBuiltinItemRenderers() {
-        NetheritePlusBuiltinItemModelRenderer builtinItemModelRenderer = new NetheritePlusBuiltinItemModelRenderer();
-        DynamicItemRenderer dynamicItemRenderer = builtinItemModelRenderer::render;
-        NetheriteShulkerBoxBlock.streamAll().forEach(x -> DynamicItemRenderer.RENDERERS.put(x.asItem(), dynamicItemRenderer));
-        DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_TRIDENT.get(), dynamicItemRenderer);
-        DynamicItemRenderer.RENDERERS.put(NetheriteItems.NETHERITE_SHIELD.get(), dynamicItemRenderer);
     }
 
     public static void registerModel(Consumer<Identifier> consumer) {

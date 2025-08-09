@@ -11,11 +11,11 @@ public class NetheriteExtension {
     public static void init() {
         NetheriteBlocks.REGISTRY.register();
         NetheriteBlockEntities.REGISTRY.register();
+        NetheriteEntities.REGISTRY.register();
         NetheriteItemGroups.REGISTRY.register();
         NetheriteItems.REGISTRY.register();
         NetheriteRecipeSerializers.REGISTRY.register();
         NetheriteScreenHandlers.REGISTRY.register();
-        NetheriteStatusEffects.REGISTRY.register();
     }
 
     public static void process() {

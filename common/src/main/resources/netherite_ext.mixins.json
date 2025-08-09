@@ -7,22 +7,16 @@
     "ArmorMaterialsMixin",
     "BlockItemMixin",
     "CrossbowItemMixin",
-    "ItemPredicateMixin",
-    "PlayerEntityMixin",
     "ServerPlayNetworkHandlerMixin",
     "ShulkerBoxBlockEntityMixin",
-    "ToolMaterialsMixin",
-    "TridentEntityMixin"
+    "ToolMaterialsMixin"
   ],
   "client": [
-    "ArmorFeatureRendererMixin",
-    "BackgroundRendererMixin",
     "BeaconScreenMixin",
     "BuiltinModelItemRendererMixin",
     "CapeFeatureRendererMixin",
     "ClientPlayNetworkHandlerMixin",
-    "ItemRendererMixin",
-    "TridentEntityRendererMixin"
+    "ItemRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

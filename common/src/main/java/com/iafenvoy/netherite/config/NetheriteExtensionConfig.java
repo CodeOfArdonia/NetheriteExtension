@@ -5,7 +5,6 @@ public final class NetheriteExtensionConfig {
     public AnvilConfigs anvil = new AnvilConfigs();
     public DamageConfigs damage = new DamageConfigs();
     public DurabilityConfigs durability = new DurabilityConfigs();
-    public GraphicsConfigs graphics = new GraphicsConfigs();
 
     public static class AnvilConfigs {
         public double xp_ratio = 0.5;
@@ -29,9 +28,5 @@ public final class NetheriteExtensionConfig {
         public int trident = 500;
         public int shears = 476;
         public int shield = 672;
-    }
-
-    public static class GraphicsConfigs {
-        public double lava_vision_distance = 0.25;
     }
 }
