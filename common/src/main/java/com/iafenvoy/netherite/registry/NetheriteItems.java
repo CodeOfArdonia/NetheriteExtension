@@ -29,9 +29,9 @@ public final class NetheriteItems {
     public static final RegistrySupplier<Item> NETHERITE_HORSE_ARMOR = register("netherite_horse_armor", () -> new NetheriteHorseArmorItem(15, new Item.Settings().maxCount(1).fireproof().arch$tab(NetheriteItemGroups.MAIN)));
     public static final RegistrySupplier<Item> NETHERITE_SHEARS = register("netherite_shears", () -> new NetheriteShearsItem(new Item.Settings().fireproof().maxDamage(NetheriteExtensionConfig.INSTANCE.durability.shears).arch$tab(NetheriteItemGroups.MAIN)));
     public static final RegistrySupplier<Item> NETHERITE_SHIELD = register("netherite_shield", () -> NetheriteShieldItem.create(new Item.Settings().fireproof().maxDamage(NetheriteExtensionConfig.INSTANCE.durability.shield).arch$tab(NetheriteItemGroups.MAIN)));
-    public static final RegistrySupplier<Item> NETHERITE_APPLE = register("netherite_apple", () -> new Item(new Item.Settings().fireproof().arch$tab(NetheriteItemGroups.MAIN)));
-    public static final RegistrySupplier<Item> NETHERITE_CARROT = register("netherite_carrot", () -> new Item(new Item.Settings().fireproof().arch$tab(NetheriteItemGroups.MAIN)));
-    public static final RegistrySupplier<Item> NETHERITE_POTION = register("netherite_potion", () -> new Item(new Item.Settings().fireproof().arch$tab(NetheriteItemGroups.MAIN)));
+//    public static final RegistrySupplier<Item> NETHERITE_APPLE = register("netherite_apple", () -> new Item(new Item.Settings().fireproof().arch$tab(NetheriteItemGroups.MAIN)));
+//    public static final RegistrySupplier<Item> NETHERITE_CARROT = register("netherite_carrot", () -> new Item(new Item.Settings().fireproof().arch$tab(NetheriteItemGroups.MAIN)));
+//    public static final RegistrySupplier<Item> NETHERITE_POTION = register("netherite_potion", () -> new Item(new Item.Settings().fireproof().arch$tab(NetheriteItemGroups.MAIN)));
 
     public static RegistrySupplier<Item> register(String id, Supplier<Item> item) {
         return REGISTRY.register(id, item);
