@@ -19,6 +19,7 @@
   "block.netherite_ext.netherite_white_shulker_box": "白色下界合金潜影盒",
   "block.netherite_ext.netherite_yellow_shulker_box": "黄色下界合金潜影盒",
   "container.netheriteShulkerBox": "下界合金潜影盒",
+  "entity.netherite_ext.netherite_trident": "下界合金三叉戟",
   "item.netherite_ext.netherite_bow": "下界合金弓",
   "item.netherite_ext.netherite_crossbow": "下界合金弩",
   "item.netherite_ext.netherite_elytra": "下界合金鞘翅",
@@ -44,5 +45,8 @@
   "item.netherite_ext.netherite_shield.white": "白色下界合金盾牌",
   "item.netherite_ext.netherite_shield.yellow": "黄色下界合金盾牌",
   "item.netherite_ext.netherite_trident": "下界合金三叉戟",
-  "itemGroup.netherite_ext.main": "下界合金拓展"
+  "itemGroup.netherite_ext.main": "下界合金拓展",
+  "item.netherite_ext.netherite_apple": "下界合金苹果",
+  "item.netherite_ext.netherite_carrot": "下界合金胡萝卜",
+  "item.netherite_ext.netherite_potion": "下界药水"
 }

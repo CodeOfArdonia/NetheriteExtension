@@ -8,6 +8,7 @@ import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import dev.architectury.registry.item.ItemPropertiesRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.render.entity.FishingBobberEntityRenderer;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.CrossbowItem;
@@ -24,6 +25,7 @@ import static com.iafenvoy.netherite.registry.NetheriteItems.*;
 public final class NetheriteRenderers {
     public static void registerEntityRenderers() {
         EntityRendererRegistry.register(NetheriteEntities.NETHERITE_TRIDENT, NetheriteTridentEntityRenderer::new);
+        EntityRendererRegistry.register(NetheriteEntities.NETHERITE_FISHING_BOBBER, FishingBobberEntityRenderer::new);
     }
 
     public static void registerModelPredicates() {

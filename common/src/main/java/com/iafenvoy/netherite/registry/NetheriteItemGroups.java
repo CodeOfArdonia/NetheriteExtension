@@ -19,7 +19,7 @@ public final class NetheriteItemGroups {
             () -> new ItemStack(NetheriteItems.NETHERITE_ELYTRA.get())
     ));
 
-    private static RegistrySupplier<ItemGroup> register(String id, Supplier<ItemGroup> group) {
+    public static RegistrySupplier<ItemGroup> register(String id, Supplier<ItemGroup> group) {
         return REGISTRY.register(id, group);
     }
 }

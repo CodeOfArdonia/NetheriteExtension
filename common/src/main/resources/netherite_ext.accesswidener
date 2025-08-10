@@ -21,7 +21,8 @@ accessible field net/minecraft/entity/projectile/TridentEntity dealtDamage Z
 accessible field net/minecraft/item/TridentItem attributeModifiers Lcom/google/common/collect/Multimap;
 accessible field net/minecraft/entity/attribute/EntityAttributeModifier value D
 mutable field net/minecraft/entity/attribute/EntityAttributeModifier value D
-accessible class net/minecraft/client/render/BackgroundRenderer$FogData
 accessible field net/minecraft/screen/AnvilScreenHandler repairItemUsage I
 accessible field net/minecraft/screen/AnvilScreenHandler levelCost Lnet/minecraft/screen/Property;
 accessible field net/minecraft/screen/AnvilScreenHandler newItemName Ljava/lang/String;
+extendable method net/minecraft/entity/projectile/FishingBobberEntity removeIfInvalid (Lnet/minecraft/entity/player/PlayerEntity;)Z
+accessible method net/minecraft/entity/projectile/FishingBobberEntity <init> (Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;II)V

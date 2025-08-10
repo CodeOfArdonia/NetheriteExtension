@@ -54,47 +54,36 @@ public class NetheriteTridentEntity extends PersistentProjectileEntity {
 
     @Override
     public void tick() {
-        if (this.inGroundTime > 4) {
-            this.dealtDamage = true;
-        }
-
+        if (this.inGroundTime > 4) this.dealtDamage = true;
         Entity entity = this.getOwner();
-        int i = (Byte) this.dataTracker.get(LOYALTY);
+        int i = this.dataTracker.get(LOYALTY);
         if (i > 0 && (this.dealtDamage || this.isNoClip()) && entity != null) {
             if (!this.isOwnerAlive()) {
-                if (!this.getWorld().isClient && this.pickupType == PickupPermission.ALLOWED) {
+                if (!this.getWorld().isClient && this.pickupType == PickupPermission.ALLOWED)
                     this.dropStack(this.asItemStack(), 0.1F);
-                }
-
                 this.discard();
             } else {
                 this.setNoClip(true);
                 Vec3d vec3d = entity.getEyePos().subtract(this.getPos());
                 this.setPos(this.getX(), this.getY() + vec3d.y * 0.015 * (double) i, this.getZ());
-                if (this.getWorld().isClient) {
+                if (this.getWorld().isClient)
                     this.lastRenderY = this.getY();
-                }
-
                 double d = 0.05 * (double) i;
                 this.setVelocity(this.getVelocity().multiply(0.95).add(vec3d.normalize().multiply(d)));
-                if (this.returnTimer == 0) {
+                if (this.returnTimer == 0)
                     this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 10.0F, 1.0F);
-                }
-
                 ++this.returnTimer;
             }
         }
-
         super.tick();
     }
 
     private boolean isOwnerAlive() {
         Entity entity = this.getOwner();
-        if (entity != null && entity.isAlive()) {
+        if (entity != null && entity.isAlive())
             return !(entity instanceof ServerPlayerEntity) || !entity.isSpectator();
-        } else {
+        else
             return false;
-        }
     }
 
     @Override
@@ -103,7 +92,7 @@ public class NetheriteTridentEntity extends PersistentProjectileEntity {
     }
 
     public boolean isEnchanted() {
-        return (Boolean) this.dataTracker.get(ENCHANTED);
+        return this.dataTracker.get(ENCHANTED);
     }
 
     @Override
@@ -151,10 +140,6 @@ public class NetheriteTridentEntity extends PersistentProjectileEntity {
         this.playSound(soundEvent, g, 1.0F);
     }
 
-    public boolean hasChanneling() {
-        return EnchantmentHelper.hasChanneling(this.tridentStack);
-    }
-
     @Override
     protected boolean tryPickup(PlayerEntity player) {
         return super.tryPickup(player) || this.isNoClip() && this.isOwner(player) && player.getInventory().insertStack(this.asItemStack());
@@ -167,19 +152,14 @@ public class NetheriteTridentEntity extends PersistentProjectileEntity {
 
     @Override
     public void onPlayerCollision(PlayerEntity player) {
-        if (this.isOwner(player) || this.getOwner() == null) {
+        if (this.isOwner(player) || this.getOwner() == null)
             super.onPlayerCollision(player);
-        }
-
     }
 
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        if (nbt.contains("Trident", 10)) {
-            this.tridentStack = ItemStack.fromNbt(nbt.getCompound("Trident"));
-        }
-
+        if (nbt.contains("Trident", 10)) this.tridentStack = ItemStack.fromNbt(nbt.getCompound("Trident"));
         this.dealtDamage = nbt.getBoolean("DealtDamage");
         this.dataTracker.set(LOYALTY, (byte) EnchantmentHelper.getLoyalty(this.tridentStack));
     }

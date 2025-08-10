@@ -1,9 +1,11 @@
 package com.iafenvoy.netherite.entity;
 
+import com.iafenvoy.netherite.registry.NetheriteEntities;
 import com.iafenvoy.netherite.registry.NetheriteItems;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.MovementType;
@@ -32,8 +34,31 @@ import java.util.List;
 import static com.iafenvoy.netherite.registry.NetheriteLoots.LAVA_FISHING_LOOT_TABLE;
 
 public class NetheriteFishingBobberEntity extends FishingBobberEntity {
+    public NetheriteFishingBobberEntity(EntityType<? extends NetheriteFishingBobberEntity> type, World world) {
+        super(type, world);
+    }
+
     public NetheriteFishingBobberEntity(PlayerEntity thrower, World world, int lureLevel, int luckOfTheSeaLevel) {
-        super(thrower, world, lureLevel, luckOfTheSeaLevel);
+        super(NetheriteEntities.NETHERITE_FISHING_BOBBER.get(), world, lureLevel, luckOfTheSeaLevel);
+        this.setOwner(thrower);
+        float f = thrower.getPitch();
+        float g = thrower.getYaw();
+        float h = MathHelper.cos(-g * ((float) Math.PI / 180F) - (float) Math.PI);
+        float i = MathHelper.sin(-g * ((float) Math.PI / 180F) - (float) Math.PI);
+        float j = -MathHelper.cos(-f * ((float) Math.PI / 180F));
+        float k = MathHelper.sin(-f * ((float) Math.PI / 180F));
+        double d = thrower.getX() - (double) i * 0.3;
+        double e = thrower.getEyeY();
+        double l = thrower.getZ() - (double) h * 0.3;
+        this.refreshPositionAndAngles(d, e, l, g, f);
+        Vec3d vec3d = new Vec3d(-i, MathHelper.clamp(-(k / j), -5.0F, 5.0F), -h);
+        double m = vec3d.length();
+        vec3d = vec3d.multiply(0.6 / m + this.random.nextTriangular(0.5F, 0.0103365), 0.6 / m + this.random.nextTriangular(0.5F, 0.0103365), 0.6 / m + this.random.nextTriangular(0.5F, 0.0103365));
+        this.setVelocity(vec3d);
+        this.setYaw((float) (MathHelper.atan2(vec3d.x, vec3d.z) * (double) (180F / (float) Math.PI)));
+        this.setPitch((float) (MathHelper.atan2(vec3d.y, vec3d.horizontalLength()) * (double) (180F / (float) Math.PI)));
+        this.prevYaw = this.getYaw();
+        this.prevPitch = this.getPitch();
     }
 
     private void checkForCollision() {
@@ -91,12 +116,13 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
         return true;
     }
 
-    private boolean removeIfInvalid(PlayerEntity playerEntity) {
-        ItemStack itemStack = playerEntity.getMainHandStack();
-        ItemStack itemStack2 = playerEntity.getOffHandStack();
+    @Override
+    protected boolean removeIfInvalid(PlayerEntity player) {
+        ItemStack itemStack = player.getMainHandStack();
+        ItemStack itemStack2 = player.getOffHandStack();
         boolean bl = itemStack.isOf(NetheriteItems.NETHERITE_FISHING_ROD.get());
         boolean bl2 = itemStack2.isOf(NetheriteItems.NETHERITE_FISHING_ROD.get());
-        if (!playerEntity.isRemoved() && playerEntity.isAlive() && (bl || bl2) && this.squaredDistanceTo(playerEntity) <= 1024.0D)
+        if (!player.isRemoved() && player.isAlive() && (bl || bl2) && this.squaredDistanceTo(player) <= 1024.0D)
             return false;
         else {
             this.discard();
@@ -139,56 +165,48 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
                     return;
                 }
                 if (validFluid) {
-                    this.setVelocity(this.getVelocity().multiply(0.3D, 0.2D, 0.3D));
+                    this.setVelocity(this.getVelocity().multiply(0.3, 0.2, 0.3));
                     this.state = FishingBobberEntity.State.BOBBING;
                     return;
                 }
                 this.checkForCollision();
-            } else {
-                if (this.state == FishingBobberEntity.State.HOOKED_IN_ENTITY) {
-                    if (this.hookedEntity != null) {
-                        if (this.hookedEntity.isRemoved() && this.hookedEntity.getWorld().getRegistryKey() == this.getWorld().getRegistryKey()) {
-                            this.hookedEntity = null;
-                            this.state = FishingBobberEntity.State.FLYING;
-                        } else
-                            this.updatePosition(this.hookedEntity.getX(), this.hookedEntity.getBodyY(0.8D), this.hookedEntity.getZ());
-                    }
-                    return;
-                }
-                if (this.state == FishingBobberEntity.State.BOBBING) {
-                    Vec3d velocity = this.getVelocity();
-                    double d = this.getY() - blockPos.getY() + 0.01 * velocity.y - fluidHeight;
-                    if (Math.abs(d) < 0.01D)
-                        d += Math.signum(d) * 0.1D;
-
-                    this.setVelocity(velocity.x * 0.9D, velocity.y - d * this.random.nextFloat() * 0.4D, velocity.z * 0.9D);
-                    if (this.hookCountdown <= 0 && this.fishTravelCountdown <= 0) {
-                        this.inOpenWater = true;
+            } else if (this.state == FishingBobberEntity.State.HOOKED_IN_ENTITY) {
+                if (this.hookedEntity != null) {
+                    if (this.hookedEntity.isRemoved() && this.hookedEntity.getWorld().getRegistryKey() == this.getWorld().getRegistryKey()) {
+                        this.hookedEntity = null;
+                        this.state = FishingBobberEntity.State.FLYING;
                     } else
-                        this.inOpenWater = this.inOpenWater && this.outOfOpenWaterTicks < 10 && this.isOpenOrLavaAround(blockPos);
-
-                    if (validFluid) {
-                        this.outOfOpenWaterTicks = Math.max(0, this.outOfOpenWaterTicks - 1);
-                        if (this.caughtFish)
-                            this.setVelocity(this.getVelocity().add(0.0D, -0.1D * this.velocityRandom.nextFloat() * this.velocityRandom.nextFloat(), 0.0D));
-
-                        if (!this.getWorld().isClient)
-                            this.tickFishingLogic();
-                    } else
-                        this.outOfOpenWaterTicks = Math.min(10, this.outOfOpenWaterTicks + 1);
+                        this.updatePosition(this.hookedEntity.getX(), this.hookedEntity.getBodyY(0.8D), this.hookedEntity.getZ());
                 }
+                return;
+            } else if (this.state == FishingBobberEntity.State.BOBBING) {
+                Vec3d velocity = this.getVelocity();
+                double d = this.getY() + velocity.y - blockPos.getY() - fluidHeight;
+                if (Math.abs(d) < 0.01D) d += Math.signum(d) * 0.1D;
+
+                this.setVelocity(velocity.x * 0.9D, velocity.y - d * this.random.nextFloat() * 0.4, velocity.z * 0.9D);
+                if (this.hookCountdown <= 0 && this.fishTravelCountdown <= 0) this.inOpenWater = true;
+                else
+                    this.inOpenWater = this.inOpenWater && this.outOfOpenWaterTicks < 10 && this.isOpenOrLavaAround(blockPos);
+
+                if (validFluid) {
+                    this.outOfOpenWaterTicks = Math.max(0, this.outOfOpenWaterTicks - 1);
+                    if (this.caughtFish)
+                        this.setVelocity(this.getVelocity().add(0.0D, -0.1D * this.velocityRandom.nextFloat() * this.velocityRandom.nextFloat(), 0.0D));
+                    if (!this.getWorld().isClient) this.tickFishingLogic();
+                } else
+                    this.outOfOpenWaterTicks = Math.min(10, this.outOfOpenWaterTicks + 1);
             }
 
             if (!fluidState.isIn(FluidTags.LAVA))
-                this.setVelocity(this.getVelocity().add(0.0D, -0.06D, 0.0D));
+                this.setVelocity(this.getVelocity().add(0, -0.03, 0));
 
             this.move(MovementType.SELF, this.getVelocity());
             this.updateRotation();
             if (this.state == FishingBobberEntity.State.FLYING && (this.isOnGround() || this.horizontalCollision))
                 this.setVelocity(Vec3d.ZERO);
 
-            double e = 0.92D;
-            this.setVelocity(this.getVelocity().multiply(e));
+            this.setVelocity(this.getVelocity().multiply(0.92));
             this.refreshPosition();
         }
     }
