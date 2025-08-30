@@ -19,7 +19,7 @@ import net.minecraft.client.render.entity.model.ShieldEntityModel;
 import net.minecraft.client.render.entity.model.TridentEntityModel;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedModelManager;
-import net.minecraft.client.render.model.json.ModelTransformationMode;
+import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.client.util.SpriteIdentifier;
@@ -27,14 +27,15 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.RegistryEntry;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
 
 @SuppressWarnings("deprecation")
 @Environment(EnvType.CLIENT)
@@ -44,9 +45,14 @@ public class NetheriteBuiltinItemRenderer {
     private static final SpriteIdentifier NETHERITE_SHIELD_BASE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, Identifier.of(NetheriteExtension.MOD_ID, "entity/netherite_shield_base"));
     private static final SpriteIdentifier NETHERITE_SHIELD_BASE_NO_PATTERN = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, Identifier.of(NetheriteExtension.MOD_ID, "entity/netherite_shield_base_nopattern"));
 
-    public static boolean render(ItemStack stack, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, ShieldEntityModel shieldModel, TridentEntityModel tridentModel, BlockEntityRenderDispatcher dispatcher) {
+    public static void registerTextures(Consumer<Identifier> consumer) {
+        consumer.accept(NETHERITE_SHIELD_BASE.getTextureId());
+        consumer.accept(NETHERITE_SHIELD_BASE_NO_PATTERN.getTextureId());
+    }
+
+    public static boolean render(ItemStack stack, ModelTransformation.Mode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, ShieldEntityModel shieldModel, TridentEntityModel tridentModel, BlockEntityRenderDispatcher dispatcher) {
         if (stack.isOf(NetheriteItems.NETHERITE_TRIDENT.get())) {
-            if (mode.getIndex() >= 5) {
+            if (mode.ordinal() >= 5) {
                 ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
                 BakedModelManager bakedModelManager = MinecraftClient.getInstance().getBakedModelManager();
                 matrices.pop();

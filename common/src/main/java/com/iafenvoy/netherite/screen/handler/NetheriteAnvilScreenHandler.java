@@ -14,7 +14,6 @@ import net.minecraft.item.Items;
 import net.minecraft.screen.ForgingScreenHandler;
 import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.screen.slot.ForgingSlotsManager;
 import net.minecraft.text.Text;
 import net.minecraft.world.WorldEvents;
 import org.apache.commons.lang3.StringUtils;
@@ -44,15 +43,6 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 
     public static int getNextCost(int cost) {
         return cost * 2 + 1;
-    }
-
-    @Override
-    protected ForgingSlotsManager getForgingSlotsManager() {
-        return ForgingSlotsManager.create()
-                .input(0, 27, 47, stack -> true)
-                .input(1, 76, 47, stack -> true)
-                .output(2, 134, 47)
-                .build();
     }
 
     @Override

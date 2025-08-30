@@ -108,13 +108,6 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
     }
 
     @Override
-    protected void drawInvalidRecipeArrow(MatrixStack matrices, int x, int y) {
-        if ((this.handler.getSlot(0).hasStack() || this.handler.getSlot(1).hasStack()) && !this.handler.getSlot(this.handler.getResultSlotIndex()).hasStack()) {
-            drawTexture(matrices, x + 99, y + 45, this.backgroundWidth, 0, 28, 21);
-        }
-    }
-
-    @Override
     protected void setup() {
         int i = (this.width - this.backgroundWidth) / 2;
         int j = (this.height - this.backgroundHeight) / 2;

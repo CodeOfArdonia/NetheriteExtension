@@ -19,10 +19,10 @@ import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -239,7 +239,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
                     q = this.getX() + o * this.fishTravelCountdown * 0.1F;
                     r = MathHelper.floor(this.getY()) + 1.0F;
                     s = this.getZ() + p * this.fishTravelCountdown * 0.1F;
-                    blockState2 = serverWorld.getBlockState(BlockPos.ofFloored(q, r - 1.0D, s));
+                    blockState2 = serverWorld.getBlockState(new BlockPos(q, r - 1.0D, s));
                     if (blockState2.isOf(Blocks.LAVA)) {
                         if (this.random.nextFloat() < 0.15F)
                             serverWorld.spawnParticles(ParticleTypes.LANDING_LAVA, q, r - 0.10000000149011612D, s, 1, o, 0.1D, p, 0.0D);
@@ -273,7 +273,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
                     q = this.getX() + MathHelper.sin(o) * p * 0.1F;
                     r = MathHelper.floor(this.getY()) + 1.0F;
                     s = this.getZ() + MathHelper.cos(o) * p * 0.1F;
-                    blockState2 = serverWorld.getBlockState(BlockPos.ofFloored(q, r - 1.0D, s));
+                    blockState2 = serverWorld.getBlockState(new BlockPos(q, r - 1.0D, s));
                     if (blockState2.isOf(Blocks.LAVA))
                         serverWorld.spawnParticles(ParticleTypes.SMOKE, q, r, s, 2 + this.random.nextInt(2), 0.10000000149011612D, 0.0D, 0.10000000149011612D, 0.0D);
                 }

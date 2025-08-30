@@ -2,6 +2,7 @@ package com.iafenvoy.netherite.item;
 
 import com.iafenvoy.netherite.config.NetheriteExtensionConfig;
 import com.iafenvoy.netherite.registry.NetheriteItems;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Items;
@@ -13,7 +14,7 @@ public enum NetheriteElytraArmorMaterials implements ArmorMaterial {
     INSTANCE;
 
     @Override
-    public int getDurability(ArmorItem.Type slot) {
+    public int getDurability(EquipmentSlot slot) {
         return 592;
     }
 
@@ -38,7 +39,7 @@ public enum NetheriteElytraArmorMaterials implements ArmorMaterial {
     }
 
     @Override
-    public int getProtection(ArmorItem.Type slot) {
+    public int getProtectionAmount(EquipmentSlot slot) {
         return NetheriteExtensionConfig.INSTANCE.damage.elytra_armor_points;
     }
 

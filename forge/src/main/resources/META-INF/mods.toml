@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[45,)"
+loaderVersion = "[43,)"
 #issueTrackerURL = ""
 license = "MIT"
 
@@ -17,14 +17,14 @@ logoFile = "logo.jpg"
 [[dependencies.netherite_ext]]
 modId = "forge"
 mandatory = true
-versionRange = "[45,)"
+versionRange = "[43,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.netherite_ext]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.19.3,1.20)"
+versionRange = "[1.19,1.19.3)"
 ordering = "NONE"
 side = "BOTH"
 

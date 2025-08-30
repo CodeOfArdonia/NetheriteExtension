@@ -6,18 +6,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
-import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
-    public NetheriteShieldDecorationRecipe(Identifier identifier, CraftingRecipeCategory category) {
-        super(identifier, category);
+    public NetheriteShieldDecorationRecipe(Identifier identifier) {
+        super(identifier);
     }
 
     @Override
-    public ItemStack craft(CraftingInventory craftingInventory, DynamicRegistryManager registryManager) {
+    public ItemStack craft(CraftingInventory craftingInventory) {
         ItemStack itemStack = ItemStack.EMPTY;
         ItemStack itemStack2 = ItemStack.EMPTY;
         for (int i = 0; i < craftingInventory.size(); ++i) {

@@ -109,7 +109,7 @@ public class NetheriteTridentEntity extends PersistentProjectileEntity {
         f = (float) (f * NetheriteExtensionConfig.INSTANCE.damage.trident_damage_multiplier + NetheriteExtensionConfig.INSTANCE.damage.trident_damage_addition);
 
         Entity entity2 = this.getOwner();
-        DamageSource damageSource = this.getDamageSources().trident(this, entity2 == null ? this : entity2);
+        DamageSource damageSource = DamageSource.trident(this, entity2 == null ? this : entity2);
         this.dealtDamage = true;
         SoundEvent soundEvent = SoundEvents.ITEM_TRIDENT_HIT;
         if (entity.damage(damageSource, f)) {

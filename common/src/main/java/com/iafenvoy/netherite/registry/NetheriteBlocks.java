@@ -10,20 +10,20 @@ import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DyeColor;
+import net.minecraft.util.registry.Registry;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public final class NetheriteBlocks {
-    public static final DeferredRegister<Block> REGISTRY = DeferredRegister.create(NetheriteExtension.MOD_ID, RegistryKeys.BLOCK);
+    public static final DeferredRegister<Block> REGISTRY = DeferredRegister.create(NetheriteExtension.MOD_ID, Registry.BLOCK_KEY);
 
-    public static final Item.Settings NETHERITE_SHULKER_BOX_ITEM_SETTINGS = new Item.Settings().maxCount(1).fireproof().arch$tab(NetheriteItemGroups.MAIN);
+    public static final Item.Settings NETHERITE_SHULKER_BOX_ITEM_SETTINGS = new Item.Settings().maxCount(1).fireproof().group(NetheriteItemGroups.MAIN);
     public static final CauldronBehavior CLEAN_NETHERITE_BOX = (state, world, pos, player, hand, stack) -> {
         Block block = Block.getBlockFromItem(stack.getItem());
         if (!(block instanceof NetheriteShulkerBoxBlock)) return ActionResult.PASS;
@@ -54,8 +54,8 @@ public final class NetheriteBlocks {
     public static final RegistrySupplier<Block> NETHERITE_GREEN_SHULKER_BOX = register("netherite_green_shulker_box", () -> new NetheriteShulkerBoxBlock(DyeColor.GREEN), block -> new BlockItem(block, NETHERITE_SHULKER_BOX_ITEM_SETTINGS));
     public static final RegistrySupplier<Block> NETHERITE_RED_SHULKER_BOX = register("netherite_red_shulker_box", () -> new NetheriteShulkerBoxBlock(DyeColor.RED), block -> new BlockItem(block, NETHERITE_SHULKER_BOX_ITEM_SETTINGS));
     public static final RegistrySupplier<Block> NETHERITE_BLACK_SHULKER_BOX = register("netherite_black_shulker_box", () -> new NetheriteShulkerBoxBlock(DyeColor.BLACK), block -> new BlockItem(block, NETHERITE_SHULKER_BOX_ITEM_SETTINGS));
-    public static final RegistrySupplier<Block> FAKE_NETHERITE_BLOCK = register("fake_netherite_block", () -> new Block(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).mapColor(MapColor.BLACK).sounds(BlockSoundGroup.NETHERITE)), block -> new BlockItem(block, new Item.Settings().fireproof().arch$tab(NetheriteItemGroups.MAIN)));
-    public static final RegistrySupplier<Block> NETHERITE_ANVIL_BLOCK = register("netherite_anvil", NetheriteAnvilBlock::new, block -> new BlockItem(block, new Item.Settings().fireproof().arch$tab(NetheriteItemGroups.MAIN)));
+    public static final RegistrySupplier<Block> FAKE_NETHERITE_BLOCK = register("fake_netherite_block", () -> new Block(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).mapColor(MapColor.BLACK).sounds(BlockSoundGroup.NETHERITE)), block -> new BlockItem(block, new Item.Settings().fireproof().group(NetheriteItemGroups.MAIN)));
+    public static final RegistrySupplier<Block> NETHERITE_ANVIL_BLOCK = register("netherite_anvil", NetheriteAnvilBlock::new, block -> new BlockItem(block, new Item.Settings().fireproof().group(NetheriteItemGroups.MAIN)));
 
     public static <T extends Block> RegistrySupplier<T> register(String id, Supplier<T> supplier, Function<T, Item> itemConstructor) {
         RegistrySupplier<T> r = REGISTRY.register(id, supplier);
