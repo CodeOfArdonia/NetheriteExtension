@@ -5,18 +5,21 @@ import com.iafenvoy.netherite.config.NetheriteExtensionConfig;
 import com.iafenvoy.netherite.item.*;
 import com.iafenvoy.netherite.item.impl.NetheriteElytraItem;
 import com.iafenvoy.netherite.item.impl.NetheriteShieldItem;
+import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.ShearsDispenserBehavior;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
+import net.minecraft.potion.PotionUtil;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Rarity;
 
 import java.util.function.Supplier;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "UnstableApiUsage"})
 public final class NetheriteItems {
     public static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(NetheriteExtension.MOD_ID, RegistryKeys.ITEM);
 
@@ -29,9 +32,8 @@ public final class NetheriteItems {
     public static final RegistrySupplier<Item> NETHERITE_HORSE_ARMOR = register("netherite_horse_armor", () -> new NetheriteHorseArmorItem(15, new Item.Settings().maxCount(1).fireproof().arch$tab(NetheriteItemGroups.MAIN)));
     public static final RegistrySupplier<Item> NETHERITE_SHEARS = register("netherite_shears", () -> new NetheriteShearsItem(new Item.Settings().fireproof().maxDamage(NetheriteExtensionConfig.INSTANCE.durability.shears).arch$tab(NetheriteItemGroups.MAIN)));
     public static final RegistrySupplier<Item> NETHERITE_SHIELD = register("netherite_shield", () -> NetheriteShieldItem.create(new Item.Settings().fireproof().maxDamage(NetheriteExtensionConfig.INSTANCE.durability.shield).arch$tab(NetheriteItemGroups.MAIN)));
-//    public static final RegistrySupplier<Item> NETHERITE_APPLE = register("netherite_apple", () -> new Item(new Item.Settings().fireproof().arch$tab(NetheriteItemGroups.MAIN)));
-//    public static final RegistrySupplier<Item> NETHERITE_CARROT = register("netherite_carrot", () -> new Item(new Item.Settings().fireproof().arch$tab(NetheriteItemGroups.MAIN)));
-//    public static final RegistrySupplier<Item> NETHERITE_POTION = register("netherite_potion", () -> new Item(new Item.Settings().fireproof().arch$tab(NetheriteItemGroups.MAIN)));
+    public static final RegistrySupplier<Item> NETHERITE_APPLE = register("netherite_apple", () -> new Item(new Item.Settings().fireproof().food(NetheriteFoodComponents.NETHERITE_APPLE).arch$tab(NetheriteItemGroups.MAIN)));
+    public static final RegistrySupplier<Item> NETHERITE_CARROT = register("netherite_carrot", () -> new Item(new Item.Settings().fireproof().food(NetheriteFoodComponents.NETHERITE_CARROT).arch$tab(NetheriteItemGroups.MAIN)));
 
     public static RegistrySupplier<Item> register(String id, Supplier<Item> item) {
         return REGISTRY.register(id, item);
@@ -39,5 +41,8 @@ public final class NetheriteItems {
 
     public static void init() {
         DispenserBlock.registerBehavior(NETHERITE_SHEARS.get(), new ShearsDispenserBehavior());
+        CreativeTabRegistry.appendStack(NetheriteItemGroups.MAIN, PotionUtil.setPotion(Items.POTION.getDefaultStack(), NetheritePotions.NETHERITE.get()));
+        CreativeTabRegistry.appendStack(NetheriteItemGroups.MAIN, PotionUtil.setPotion(Items.SPLASH_POTION.getDefaultStack(), NetheritePotions.NETHERITE.get()));
+        CreativeTabRegistry.appendStack(NetheriteItemGroups.MAIN, PotionUtil.setPotion(Items.LINGERING_POTION.getDefaultStack(), NetheritePotions.NETHERITE.get()));
     }
 }

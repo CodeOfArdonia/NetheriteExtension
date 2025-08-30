@@ -14,6 +14,7 @@ public class NetheriteExtension {
         NetheriteEntities.REGISTRY.register();
         NetheriteItemGroups.REGISTRY.register();
         NetheriteItems.REGISTRY.register();
+        NetheritePotions.REGISTRY.register();
         NetheriteRecipeSerializers.REGISTRY.register();
         NetheriteScreenHandlers.REGISTRY.register();
     }

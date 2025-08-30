@@ -76,8 +76,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
         if (!blockState.isAir()) {
             FluidState fluidState = blockState.getFluidState();
             return fluidState.isIn(FluidTags.LAVA) && fluidState.isStill() && blockState.getCollisionShape(this.getWorld(), pos).isEmpty() ? FishingBobberEntity.PositionType.INSIDE_WATER : FishingBobberEntity.PositionType.INVALID;
-        } else
-            return FishingBobberEntity.PositionType.ABOVE_WATER;
+        } else return FishingBobberEntity.PositionType.ABOVE_WATER;
     }
 
     private FishingBobberEntity.PositionType getPositionType(BlockPos start, BlockPos end) {

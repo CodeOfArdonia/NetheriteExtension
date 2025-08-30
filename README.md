@@ -17,6 +17,9 @@ Links: [Curseforge](https://www.curseforge.com/minecraft/mc-mods/netherite-plus-
 - `Netherite Horse Armor`: More armor points that diamond ones.
 - `Netherite Shears`: *No special effects*
 - `Netherite Shield`: *No special effects*
+- `Netherite Apple`: More powerful effect than golden apples.
+- `Netherite Carrot`: More powerful effect than golden carrots.
 - `Netherite Shulker Boxes`: *No special effects*
 - `Fake Netherite Blocks`: Look like netherite blocks but less expensive.
 - `Netherite Anvils`: Never damage & half experience level.
+- `Netherite Potion`: Fire Resistance I for 3 minutes & Resistance III for 1 minutes
