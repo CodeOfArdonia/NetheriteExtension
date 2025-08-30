@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:smithing_transform",
+  "type": "minecraft:smithing",
   "base": {
     "item": "minecraft:gray_shulker_box"
   },
@@ -8,8 +8,5 @@
   },
   "result": {
     "item": "netherite_ext:netherite_gray_shulker_box"
-  },
-  "template": {
-    "item": "minecraft:netherite_upgrade_smithing_template"
   }
 }
