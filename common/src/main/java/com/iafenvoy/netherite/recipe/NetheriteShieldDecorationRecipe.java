@@ -1,6 +1,6 @@
 package com.iafenvoy.netherite.recipe;
 
-import net.minecraft.inventory.RecipeInputInventory;
+import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.BannerItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -17,7 +17,7 @@ public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public ItemStack craft(RecipeInputInventory craftingInventory, DynamicRegistryManager registryManager) {
+    public ItemStack craft(CraftingInventory craftingInventory, DynamicRegistryManager registryManager) {
         ItemStack itemStack = ItemStack.EMPTY;
         ItemStack itemStack2 = ItemStack.EMPTY;
         for (int i = 0; i < craftingInventory.size(); ++i) {
@@ -45,7 +45,7 @@ public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public boolean matches(RecipeInputInventory craftingInventory, World world) {
+    public boolean matches(CraftingInventory craftingInventory, World world) {
         ItemStack itemStack = ItemStack.EMPTY;
         ItemStack itemStack2 = ItemStack.EMPTY;
         for (int i = 0; i < craftingInventory.size(); ++i) {

@@ -12,7 +12,6 @@ public class NetheriteExtension {
         NetheriteBlocks.REGISTRY.register();
         NetheriteBlockEntities.REGISTRY.register();
         NetheriteEntities.REGISTRY.register();
-        NetheriteItemGroups.REGISTRY.register();
         NetheriteItems.REGISTRY.register();
         NetheritePotions.REGISTRY.register();
         NetheriteRecipeSerializers.REGISTRY.register();

@@ -20,6 +20,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod(NetheriteExtension.MOD_ID)
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class NetheriteExtensionForge {
+    @SuppressWarnings("removal")
     public NetheriteExtensionForge() {
         EventBuses.registerModEventBus(NetheriteExtension.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
         NetheriteExtension.init();

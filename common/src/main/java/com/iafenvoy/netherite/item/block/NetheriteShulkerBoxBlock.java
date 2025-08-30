@@ -10,6 +10,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.entity.PistonBlockEntity;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.ItemEntity;
@@ -22,7 +23,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.loot.context.LootContextParameterSet;
+import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandler;
@@ -58,7 +59,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
     private final DyeColor color;
 
     public NetheriteShulkerBoxBlock(@Nullable DyeColor color) {
-        super(Settings.create().mapColor(color == null ? DyeColor.GRAY : color).solid().strength(2.0F).resistance(1200.0F).dynamicBounds().nonOpaque().suffocates(CONTEXT_PREDICATE).blockVision(CONTEXT_PREDICATE).pistonBehavior(PistonBehavior.DESTROY).solidBlock((state, world, pos) -> true));
+        super(Settings.of(Material.SHULKER_BOX).mapColor(color == null ? MapColor.GRAY : color.getMapColor()).strength(2.0F).resistance(1200.0F).dynamicBounds().nonOpaque().suffocates(CONTEXT_PREDICATE).blockVision(CONTEXT_PREDICATE).solidBlock((state, world, pos) -> true));
         this.color = color;
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.UP));
         BY_COLOR.put(this.color, this);
@@ -148,10 +149,10 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
     }
 
     @Override
-    public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
-        BlockEntity blockEntity = builder.getOptional(LootContextParameters.BLOCK_ENTITY);
+    public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
+        BlockEntity blockEntity = builder.getNullable(LootContextParameters.BLOCK_ENTITY);
         if (blockEntity instanceof NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity)
-            builder = builder.addDynamicDrop(CONTENTS, (consumer) -> {
+            builder = builder.putDrop(CONTENTS, (ctx, consumer) -> {
                 for (int i = 0; i < shulkerBoxBlockEntity.size(); ++i)
                     consumer.accept(shulkerBoxBlockEntity.getStack(i));
             });

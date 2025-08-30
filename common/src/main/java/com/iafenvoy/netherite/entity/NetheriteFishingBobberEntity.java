@@ -15,7 +15,7 @@ import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootTable;
-import net.minecraft.loot.context.LootContextParameterSet;
+import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.particle.ParticleTypes;
@@ -305,13 +305,13 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
                 this.getWorld().sendEntityStatus(this, (byte) 31);
                 i = this.hookedEntity instanceof ItemEntity ? 3 : 5;
             } else if (this.hookCountdown > 0) {
-                LootContextParameterSet lootContextParameterSet = new LootContextParameterSet.Builder((ServerWorld) this.getWorld())
-                        .add(LootContextParameters.ORIGIN, this.getPos())
-                        .add(LootContextParameters.TOOL, usedItem)
-                        .add(LootContextParameters.THIS_ENTITY, this)
+                LootContext lootContextParameterSet = new LootContext.Builder((ServerWorld) this.getWorld())
+                        .parameter(LootContextParameters.ORIGIN, this.getPos())
+                        .parameter(LootContextParameters.TOOL, usedItem)
+                        .parameter(LootContextParameters.THIS_ENTITY, this)
                         .luck((float) this.luckOfTheSeaLevel + playerEntity.getLuck())
                         .build(LootContextTypes.FISHING);
-                LootTable lootTable = this.getWorld().getServer().getLootManager().getLootTable(LAVA_FISHING_LOOT_TABLE);
+                LootTable lootTable = this.getWorld().getServer().getLootManager().getTable(LAVA_FISHING_LOOT_TABLE);
                 List<ItemStack> list = lootTable.generateLoot(lootContextParameterSet);
                 Criteria.FISHING_ROD_HOOKED.trigger((ServerPlayerEntity) playerEntity, usedItem, this, list);
 

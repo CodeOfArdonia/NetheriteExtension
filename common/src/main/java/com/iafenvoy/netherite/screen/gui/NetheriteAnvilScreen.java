@@ -4,9 +4,9 @@ import com.iafenvoy.netherite.screen.handler.NetheriteAnvilScreenHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.ForgingScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -18,7 +18,7 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHandler> {
-    private static final Identifier TEXTURE = Identifier.of(Identifier.DEFAULT_NAMESPACE,"textures/gui/container/anvil.png");
+    private static final Identifier TEXTURE = Identifier.of(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/anvil.png");
     private static final Text TOO_EXPENSIVE_TEXT = Text.translatable("container.repair.expensive");
     private final PlayerEntity player;
     private TextFieldWidget nameField;
@@ -35,34 +35,35 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
     }
 
     @Override
-    protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
-        super.drawForeground(context, mouseX, mouseY);
-        int level = this.handler.getLevelCost();
-        if (level > 0) {
-            int color = 0x80ff20;
+    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
+        super.drawForeground(matrices, mouseX, mouseY);
+        int i = this.handler.getLevelCost();
+        if (i > 0) {
+            int j = 8453920;
             Text text;
-            if (level >= 40 && !this.player.getAbilities().creativeMode) {
+            if (i >= 40 && !this.client.player.getAbilities().creativeMode) {
                 text = TOO_EXPENSIVE_TEXT;
-                color = 0xff6060;
-            } else if (!this.handler.getSlot(2).hasStack())
+                j = 16736352;
+            } else if (!this.handler.getSlot(2).hasStack()) {
                 text = null;
-            else {
-                text = Text.translatable("container.repair.cost", level);
-                if (!this.handler.getSlot(2).canTakeItems(this.player))
-                    color = 0xff6060;
+            } else {
+                text = Text.translatable("container.repair.cost", i);
+                if (!this.handler.getSlot(2).canTakeItems(this.player)) {
+                    j = 16736352;
+                }
             }
 
             if (text != null) {
                 int k = this.backgroundWidth - 8 - this.textRenderer.getWidth(text) - 2;
-                context.fill(k - 2, 67, this.backgroundWidth - 8, 79, 0x4f000000);
-                context.drawTextWithShadow(this.textRenderer, text, k, 69, color);
+                fill(matrices, k - 2, 67, this.backgroundWidth - 8, 79, 1325400064);
+                this.textRenderer.drawWithShadow(matrices, text, (float) k, 69, j);
             }
         }
     }
 
-    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
-        super.drawBackground(context, delta, mouseX, mouseY);
-        context.drawTexture(TEXTURE, this.x + 59, this.y + 20, 0, this.backgroundHeight + (this.handler.getSlot(0).hasStack() ? 0 : 16), 110, 16);
+    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+        super.drawBackground(matrices, delta, mouseX, mouseY);
+        drawTexture(matrices, this.x + 59, this.y + 20, 0, this.backgroundHeight + (this.handler.getSlot(0).hasStack() ? 0 : 16), 110, 16);
     }
 
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
@@ -95,8 +96,8 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
     }
 
     @Override
-    public void renderForeground(DrawContext context, int mouseX, int mouseY, float delta) {
-        this.nameField.render(context, mouseX, mouseY, delta);
+    public void renderForeground(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        this.nameField.render(matrices, mouseX, mouseY, delta);
     }
 
     @Override
@@ -107,10 +108,10 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
     }
 
     @Override
-    protected void drawInvalidRecipeArrow(DrawContext context, int x, int y) {
-        if ((this.handler.getSlot(0).hasStack() || this.handler.getSlot(1).hasStack())
-                && !this.handler.getSlot(this.handler.getResultSlotIndex()).hasStack())
-            context.drawTexture(TEXTURE, x + 99, y + 45, this.backgroundWidth, 0, 28, 21);
+    protected void drawInvalidRecipeArrow(MatrixStack matrices, int x, int y) {
+        if ((this.handler.getSlot(0).hasStack() || this.handler.getSlot(1).hasStack()) && !this.handler.getSlot(this.handler.getResultSlotIndex()).hasStack()) {
+            drawTexture(matrices, x + 99, y + 45, this.backgroundWidth, 0, 28, 21);
+        }
     }
 
     @Override

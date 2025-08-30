@@ -2,7 +2,7 @@ package com.iafenvoy.netherite.recipe;
 
 import com.iafenvoy.netherite.item.block.NetheriteShulkerBoxBlock;
 import net.minecraft.block.Block;
-import net.minecraft.inventory.RecipeInputInventory;
+import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,7 +20,7 @@ public class NetheriteShulkerBoxColoringRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public ItemStack craft(RecipeInputInventory craftingInventory, DynamicRegistryManager registryManager) {
+    public ItemStack craft(CraftingInventory craftingInventory, DynamicRegistryManager registryManager) {
         ItemStack itemStack = ItemStack.EMPTY;
         DyeItem dyeItem = (DyeItem) Items.WHITE_DYE;
         for (int i = 0; i < craftingInventory.size(); ++i) {
@@ -50,7 +50,7 @@ public class NetheriteShulkerBoxColoringRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public boolean matches(RecipeInputInventory craftingInventory, World world) {
+    public boolean matches(CraftingInventory craftingInventory, World world) {
         int i = 0;
         int j = 0;
         for (int k = 0; k < craftingInventory.size(); ++k) {
