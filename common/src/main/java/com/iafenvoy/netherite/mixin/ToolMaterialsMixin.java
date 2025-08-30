@@ -14,7 +14,7 @@ public class ToolMaterialsMixin {
     @SuppressWarnings("all")
     @Inject(method = "getRepairIngredient", at = @At("HEAD"), cancellable = true)
     private void replaceNugget(CallbackInfoReturnable<Ingredient> cir) {
-        if (this.equals(ArmorMaterials.NETHERITE))
+        if (this.equals(ToolMaterials.NETHERITE))
             cir.setReturnValue(Ingredient.ofItems(NetheriteItems.NETHERITE_NUGGET.get()));
     }
 }
