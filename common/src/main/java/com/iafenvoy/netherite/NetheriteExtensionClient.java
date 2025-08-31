@@ -9,8 +9,6 @@ import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
 public class NetheriteExtensionClient {
-    public static final IntSet NETHERITE_TRIDENT_LIST = new IntArraySet();
-
     public static void init() {
         NetheriteRenderers.registerEntityRenderers();
     }
