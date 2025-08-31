@@ -27,7 +27,7 @@
     "netherite_ext-fabric.mixins.json"
   ],
   "depends": {
-    "minecraft": "~1.20.5",
+    "minecraft": "~1.21",
     "architectury": "*",
     "fabric-api": "*"
   }

@@ -11,8 +11,6 @@ accessible field net/minecraft/entity/projectile/FishingBobberEntity CAUGHT_FISH
 accessible field net/minecraft/entity/projectile/FishingBobberEntity waitCountdown I
 accessible field net/minecraft/entity/projectile/FishingBobberEntity hookCountdown I
 accessible field net/minecraft/entity/projectile/FishingBobberEntity fishAngle F
-accessible field net/minecraft/entity/projectile/FishingBobberEntity lureLevel I
-accessible field net/minecraft/entity/projectile/FishingBobberEntity luckOfTheSeaLevel I
 accessible field net/minecraft/entity/projectile/FishingBobberEntity outOfOpenWaterTicks I
 accessible field net/minecraft/entity/projectile/FishingBobberEntity caughtFish Z
 accessible method net/minecraft/entity/projectile/FishingBobberEntity <init> (Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;II)V
@@ -21,3 +19,7 @@ accessible field net/minecraft/entity/attribute/EntityAttributeModifier value D
 mutable field net/minecraft/entity/attribute/EntityAttributeModifier value D
 accessible method net/minecraft/client/gui/screen/ingame/HandledScreens register (Lnet/minecraft/screen/ScreenHandlerType;Lnet/minecraft/client/gui/screen/ingame/HandledScreens$Provider;)V
 accessible class net/minecraft/client/gui/screen/ingame/HandledScreens$Provider
+accessible field net/minecraft/entity/projectile/PersistentProjectileEntity piercingKilledEntities Ljava/util/List;
+accessible field net/minecraft/entity/projectile/PersistentProjectileEntity piercedEntities Lit/unimi/dsi/fastutil/ints/IntOpenHashSet;
+accessible field net/minecraft/entity/projectile/FishingBobberEntity waitTimeReductionTicks I
+accessible field net/minecraft/entity/projectile/FishingBobberEntity luckBonus I

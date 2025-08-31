@@ -47,13 +47,13 @@ public class NetheriteBuiltinItemRenderer {
                 ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
                 BakedModelManager bakedModelManager = MinecraftClient.getInstance().getBakedModelManager();
                 matrices.pop();
-                itemRenderer.renderItem(stack, mode, false, matrices, vertexConsumers, light, overlay, bakedModelManager.getModel(new ModelIdentifier(NetheriteExtension.MOD_ID, "netherite_trident", "inventory")));
+                itemRenderer.renderItem(stack, mode, false, matrices, vertexConsumers, light, overlay, bakedModelManager.getModel(new ModelIdentifier(Identifier.of(NetheriteExtension.MOD_ID, "netherite_trident"), "inventory")));
                 matrices.push();
             } else {
                 matrices.push();
                 matrices.scale(1, -1, -1);
                 VertexConsumer consumer = ItemRenderer.getDirectItemGlintConsumer(vertexConsumers, tridentModel.getLayer(Identifier.of(NetheriteExtension.MOD_ID, "textures/entity/netherite_trident.png")), false, stack.hasGlint());
-                tridentModel.render(matrices, consumer, light, overlay, 1, 1, 1, 1);
+                tridentModel.render(matrices, consumer, light, overlay, -1);
                 matrices.pop();
             }
         } else if (stack.isOf(NetheriteItems.NETHERITE_SHIELD.get())) {
@@ -64,10 +64,10 @@ public class NetheriteBuiltinItemRenderer {
             matrices.scale(1, -1, -1);
             SpriteIdentifier spriteIdentifier = bl ? NETHERITE_SHIELD_BASE : NETHERITE_SHIELD_BASE_NO_PATTERN;
             VertexConsumer vertexConsumer = spriteIdentifier.getSprite().getTextureSpecificVertexConsumer(ItemRenderer.getDirectItemGlintConsumer(vertexConsumers, shieldModel.getLayer(spriteIdentifier.getAtlasId()), true, stack.hasGlint()));
-            shieldModel.getHandle().render(matrices, vertexConsumer, light, overlay, 1, 1, 1, 1);
+            shieldModel.getHandle().render(matrices, vertexConsumer, light, overlay, -1);
             if (bl)
                 BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, overlay, shieldModel.getPlate(), spriteIdentifier, false, (DyeColor) Objects.requireNonNullElse(dyeColor2, DyeColor.WHITE), bannerPatternsComponent, stack.hasGlint());
-            else shieldModel.getPlate().render(matrices, vertexConsumer, light, overlay, 1, 1, 1, 1);
+            else shieldModel.getPlate().render(matrices, vertexConsumer, light, overlay, -1);
 
             matrices.pop();
         } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof NetheriteShulkerBoxBlock block) {

@@ -1,13 +1,16 @@
 package com.iafenvoy.netherite.entity;
 
+import com.google.common.collect.Lists;
 import com.iafenvoy.netherite.config.NetheriteExtensionConfig;
 import com.iafenvoy.netherite.registry.NetheriteEntities;
 import com.iafenvoy.netherite.registry.NetheriteItems;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ProjectileDeflection;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -16,14 +19,17 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import java.util.Arrays;
 
 public class NetheriteTridentEntity extends PersistentProjectileEntity {
     private static final TrackedData<Byte> LOYALTY = DataTracker.registerData(NetheriteTridentEntity.class, TrackedDataHandlerRegistry.BYTE);
@@ -34,15 +40,24 @@ public class NetheriteTridentEntity extends PersistentProjectileEntity {
     public int returnTimer;
 
     public NetheriteTridentEntity(EntityType<? extends NetheriteTridentEntity> type, World world) {
-        super(type, world, DEFAULT.copy());
+        super(type, world);
         this.tridentStack = DEFAULT.copy();
     }
 
     public NetheriteTridentEntity(World world, LivingEntity owner, ItemStack stack) {
-        super(NetheriteEntities.NETHERITE_TRIDENT.get(), owner, world, stack);
+        super(NetheriteEntities.NETHERITE_TRIDENT.get(), owner, world, stack, stack);
         this.tridentStack = stack.copy();
-        this.dataTracker.set(LOYALTY, (byte) EnchantmentHelper.getLoyalty(stack));
+        this.dataTracker.set(LOYALTY, this.getLoyalty(stack));
         this.dataTracker.set(ENCHANTED, stack.hasGlint());
+    }
+
+    private byte getLoyalty(ItemStack stack) {
+        World var3 = this.getWorld();
+        if (var3 instanceof ServerWorld serverWorld) {
+            return (byte) MathHelper.clamp(EnchantmentHelper.getTridentReturnAcceleration(serverWorld, stack, this), 0, 127);
+        } else {
+            return 0;
+        }
     }
 
     @Override
@@ -107,42 +122,84 @@ public class NetheriteTridentEntity extends PersistentProjectileEntity {
 
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
+        super.onEntityHit(entityHitResult);
         Entity entity = entityHitResult.getEntity();
-        float f = 8.0F;
-        if (entity instanceof LivingEntity livingEntity)
-            f += EnchantmentHelper.getAttackDamage(this.tridentStack, livingEntity.getType());
-        f = (float) (f * NetheriteExtensionConfig.INSTANCE.damage.trident_damage_multiplier + NetheriteExtensionConfig.INSTANCE.damage.trident_damage_addition);
-
+        float f = (float) this.getVelocity().length();
+        double d = this.getDamage();
         Entity entity2 = this.getOwner();
-        DamageSource damageSource = this.getDamageSources().trident(this, entity2 == null ? this : entity2);
-        this.dealtDamage = true;
-        SoundEvent soundEvent = SoundEvents.ITEM_TRIDENT_HIT;
-        if (entity.damage(damageSource, f)) {
-            if (entity.getType() == EntityType.ENDERMAN) return;
-            if (entity instanceof LivingEntity livingEntity2) {
-                if (entity2 instanceof LivingEntity) {
-                    EnchantmentHelper.onUserDamaged(livingEntity2, entity2);
-                    EnchantmentHelper.onTargetDamaged((LivingEntity) entity2, livingEntity2);
-                }
-                this.onHit(livingEntity2);
+        DamageSource damageSource = this.getDamageSources().arrow(this, (Entity) (entity2 != null ? entity2 : this));
+        if (this.getWeaponStack() != null) {
+            World var9 = this.getWorld();
+            if (var9 instanceof ServerWorld serverWorld) {
+                d = EnchantmentHelper.getDamage(serverWorld, this.getWeaponStack(), entity, damageSource, (float) d);
             }
+        }
+        d = (float) (d * NetheriteExtensionConfig.INSTANCE.damage.trident_damage_multiplier + NetheriteExtensionConfig.INSTANCE.damage.trident_damage_addition);
+
+        int i = MathHelper.ceil(MathHelper.clamp((double) f * d, (double) 0.0F, (double) Integer.MAX_VALUE));
+        if (this.getPierceLevel() > 0) {
+            if (this.piercedEntities == null) {
+                this.piercedEntities = new IntOpenHashSet(5);
+            }
+
+            if (this.piercingKilledEntities == null) {
+                this.piercingKilledEntities = Lists.newArrayListWithCapacity(5);
+            }
+
+            if (this.piercedEntities.size() >= this.getPierceLevel() + 1) {
+                this.discard();
+                return;
+            }
+
+            this.piercedEntities.add(entity.getId());
         }
 
-        this.setVelocity(this.getVelocity().multiply(-0.01D, -0.1D, -0.01D));
-        float g = 1.0F;
-        if (this.getWorld() instanceof ServerWorld && this.getWorld().isThundering() && EnchantmentHelper.hasChanneling(this.tridentStack)) {
-            BlockPos blockPos = entity.getBlockPos();
-            if (this.getWorld().isSkyVisible(blockPos)) {
-                LightningEntity lightningEntity = EntityType.LIGHTNING_BOLT.create(this.getWorld());
-                assert lightningEntity != null;
-                lightningEntity.refreshPositionAfterTeleport(Vec3d.ofBottomCenter(blockPos));
-                lightningEntity.setChanneler(entity2 instanceof ServerPlayerEntity ? (ServerPlayerEntity) entity2 : null);
-                this.getWorld().spawnEntity(lightningEntity);
-                soundEvent = SoundEvents.ITEM_TRIDENT_THUNDER;
-                g = 5.0F;
+        if (this.isCritical()) {
+            long l = this.random.nextInt(i / 2 + 2);
+            i = (int) Math.min(l + (long) i, 2147483647L);
+        }
+        if (entity2 instanceof LivingEntity livingEntity) livingEntity.onAttacking(entity);
+        boolean bl = entity.getType() == EntityType.ENDERMAN;
+        int j = entity.getFireTicks();
+        if (this.isOnFire() && !bl) entity.setOnFireFor(5.0F);
+
+        if (entity.damage(damageSource, (float) i)) {
+            if (bl) return;
+            if (entity instanceof LivingEntity livingEntity2) {
+                if (!this.getWorld().isClient && this.getPierceLevel() <= 0)
+                    livingEntity2.setStuckArrowCount(livingEntity2.getStuckArrowCount() + 1);
+                this.knockback(livingEntity2, damageSource);
+                World var13 = this.getWorld();
+                if (var13 instanceof ServerWorld serverWorld2)
+                    EnchantmentHelper.onTargetDamaged(serverWorld2, livingEntity2, damageSource, this.getWeaponStack());
+                this.onHit(livingEntity2);
+                if (livingEntity2 != entity2 && livingEntity2 instanceof PlayerEntity && entity2 instanceof ServerPlayerEntity serverPlayer && !this.isSilent())
+                    serverPlayer.networkHandler.sendPacket(new GameStateChangeS2CPacket(GameStateChangeS2CPacket.PROJECTILE_HIT_PLAYER, 0.0F));
+                if (!entity.isAlive() && this.piercingKilledEntities != null)
+                    this.piercingKilledEntities.add(livingEntity2);
+                if (!this.getWorld().isClient && entity2 instanceof ServerPlayerEntity serverPlayerEntity)
+                    if (this.piercingKilledEntities != null && this.isShotFromCrossbow())
+                        Criteria.KILLED_BY_CROSSBOW.trigger(serverPlayerEntity, this.piercingKilledEntities);
+                    else if (!entity.isAlive() && this.isShotFromCrossbow())
+                        Criteria.KILLED_BY_CROSSBOW.trigger(serverPlayerEntity, Arrays.asList(entity));
+            }
+
+            this.playSound(this.getSound(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
+            if (this.getPierceLevel() <= 0) {
+                this.discard();
+            }
+        } else {
+            entity.setFireTicks(j);
+            this.deflect(ProjectileDeflection.SIMPLE, entity, this.getOwner(), false);
+            this.setVelocity(this.getVelocity().multiply(0.2));
+            if (!this.getWorld().isClient && this.getVelocity().lengthSquared() < 1.0E-7) {
+                if (this.pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
+                    this.dropStack(this.asItemStack(), 0.1F);
+                }
+
+                this.discard();
             }
         }
-        this.playSound(soundEvent, g, 1.0F);
     }
 
     @Override
@@ -167,7 +224,7 @@ public class NetheriteTridentEntity extends PersistentProjectileEntity {
         if (nbt.contains("Trident", 10))
             this.tridentStack = ItemStack.fromNbtOrEmpty(this.getWorld().getRegistryManager(), nbt.getCompound("Trident"));
         this.dealtDamage = nbt.getBoolean("DealtDamage");
-        this.dataTracker.set(LOYALTY, (byte) EnchantmentHelper.getLoyalty(this.tridentStack));
+        this.dataTracker.set(LOYALTY, this.getLoyalty(this.tridentStack));
     }
 
     @Override

@@ -14,7 +14,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 
 @Mod(NetheriteExtension.MOD_ID)
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public final class NetheriteExtensionNeoForge {
     public NetheriteExtensionNeoForge() {
         NetheriteExtension.init();
@@ -27,11 +27,8 @@ public final class NetheriteExtensionNeoForge {
         event.enqueueWork(NetheriteExtension::process);
     }
 
-    @EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME)
-    public static class NeoForgeEvents {
-        @SubscribeEvent
-        public static void registerBrewingRecipe(RegisterBrewingRecipesEvent event) {
-            event.getBuilder().registerPotionRecipe(Potions.AWKWARD, NetheriteItems.NETHERITE_NUGGET.get(), NetheritePotions.NETHERITE);
-        }
+    @SubscribeEvent
+    public static void registerBrewingRecipe(RegisterBrewingRecipesEvent event) {
+        event.getBuilder().registerPotionRecipe(Potions.AWKWARD, NetheriteItems.NETHERITE_NUGGET.get(), NetheritePotions.NETHERITE);
     }
 }
