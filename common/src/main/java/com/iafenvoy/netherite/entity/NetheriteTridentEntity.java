@@ -33,12 +33,12 @@ public class NetheriteTridentEntity extends PersistentProjectileEntity {
     public int returnTimer;
 
     public NetheriteTridentEntity(EntityType<? extends NetheriteTridentEntity> type, World world) {
-        super(type, world);
+        super(type, world, new ItemStack(NetheriteItems.NETHERITE_TRIDENT.get()));
         this.tridentStack = new ItemStack(NetheriteItems.NETHERITE_TRIDENT.get());
     }
 
     public NetheriteTridentEntity(World world, LivingEntity owner, ItemStack stack) {
-        super(NetheriteEntities.NETHERITE_TRIDENT.get(), owner, world);
+        super(NetheriteEntities.NETHERITE_TRIDENT.get(), owner, world, new ItemStack(NetheriteItems.NETHERITE_TRIDENT.get()));
         this.tridentStack = new ItemStack(NetheriteItems.NETHERITE_TRIDENT.get());
         this.tridentStack = stack.copy();
         this.dataTracker.set(LOYALTY, (byte) EnchantmentHelper.getLoyalty(stack));

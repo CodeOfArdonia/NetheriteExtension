@@ -80,14 +80,14 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
     public void readNbt(NbtCompound tag) {
         super.readNbt(tag);
         this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
-        if (!this.deserializeLootTable(tag) && tag.contains("Items", 9))
+        if (!this.readLootTable(tag) && tag.contains("Items", 9))
             Inventories.readNbt(tag, this.inventory);
     }
 
     @Override
     public void writeNbt(NbtCompound tag) {
         super.writeNbt(tag);
-        if (!this.serializeLootTable(tag))
+        if (!this.writeLootTable(tag))
             Inventories.writeNbt(tag, this.inventory, false);
     }
 
@@ -123,7 +123,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
     }
 
     @Override
-    protected DefaultedList<ItemStack> getInvStackList() {
+    protected DefaultedList<ItemStack> method_11282() {
         return this.inventory;
     }
 
@@ -186,9 +186,9 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
                 for (Entity entity : list)
                     if (entity.getPistonBehavior() != PistonBehavior.IGNORE)
                         entity.move(MovementType.SHULKER_BOX, new Vec3d(
-                                (box.getXLength() + 0.01) * (double) direction.getOffsetX(),
-                                (box.getYLength() + 0.01) * (double) direction.getOffsetY(),
-                                (box.getZLength() + 0.01) * (double) direction.getOffsetZ()
+                                (box.getLengthX() + 0.01) * (double) direction.getOffsetX(),
+                                (box.getLengthY() + 0.01) * (double) direction.getOffsetY(),
+                                (box.getLengthZ() + 0.01) * (double) direction.getOffsetZ()
                         ));
         }
     }

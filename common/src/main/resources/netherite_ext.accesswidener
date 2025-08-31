@@ -20,4 +20,3 @@ extendable method net/minecraft/entity/projectile/FishingBobberEntity removeIfIn
 accessible field net/minecraft/item/TridentItem attributeModifiers Lcom/google/common/collect/Multimap;
 accessible field net/minecraft/entity/attribute/EntityAttributeModifier value D
 mutable field net/minecraft/entity/attribute/EntityAttributeModifier value D
-accessible field net/minecraft/entity/projectile/TridentEntity tridentStack Lnet/minecraft/item/ItemStack;

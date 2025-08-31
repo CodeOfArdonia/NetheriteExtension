@@ -62,7 +62,7 @@ public final class NetheriteBlocks {
         RegistrySupplier<Item> item = NetheriteItems.register(id, () -> itemConstructor.apply(r.get()));
         item.listen(i -> {
             if (r.get() instanceof NetheriteShulkerBoxBlock)
-                CauldronBehavior.WATER_CAULDRON_BEHAVIOR.put(i, CLEAN_NETHERITE_BOX);
+                CauldronBehavior.WATER_CAULDRON_BEHAVIOR.map().put(i, CLEAN_NETHERITE_BOX);
         });
         return r;
     }

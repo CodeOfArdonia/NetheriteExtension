@@ -18,7 +18,10 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHandler> {
-    private static final Identifier TEXTURE = Identifier.of(Identifier.DEFAULT_NAMESPACE,"textures/gui/container/anvil.png");
+    private static final Identifier TEXT_FIELD_TEXTURE = Identifier.of(Identifier.DEFAULT_NAMESPACE, "container/anvil/text_field");
+    private static final Identifier TEXT_FIELD_DISABLED_TEXTURE = Identifier.of(Identifier.DEFAULT_NAMESPACE, "container/anvil/text_field_disabled");
+    private static final Identifier ERROR_TEXTURE = Identifier.of(Identifier.DEFAULT_NAMESPACE, "container/anvil/error");
+    private static final Identifier TEXTURE = Identifier.of(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/anvil.png");
     private static final Text TOO_EXPENSIVE_TEXT = Text.translatable("container.repair.expensive");
     private final PlayerEntity player;
     private TextFieldWidget nameField;
@@ -27,11 +30,6 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
         super(handler, inventory, title, TEXTURE);
         this.player = inventory.player;
         this.titleX = 60;
-    }
-
-    public void handledScreenTick() {
-        super.handledScreenTick();
-        this.nameField.tick();
     }
 
     @Override
@@ -62,7 +60,7 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
 
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         super.drawBackground(context, delta, mouseX, mouseY);
-        context.drawTexture(TEXTURE, this.x + 59, this.y + 20, 0, this.backgroundHeight + (this.handler.getSlot(0).hasStack() ? 0 : 16), 110, 16);
+        context.drawGuiTexture(this.handler.getSlot(0).hasStack() ? TEXT_FIELD_TEXTURE : TEXT_FIELD_DISABLED_TEXTURE, this.x + 59, this.y + 20, 110, 16);
     }
 
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
@@ -74,14 +72,13 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
     }
 
     private void onRenamed(String name) {
-        if (!name.isEmpty()) {
-            String s = name;
-            Slot slot = this.handler.getSlot(0);
-            if (slot != null && slot.hasStack() && !slot.getStack().hasCustomName() && name.equals(slot.getStack().getName().getString()))
-                s = "";
-            this.handler.setNewItemName(s);
-            assert this.client != null && this.client.player != null;
-            this.client.player.networkHandler.sendPacket(new RenameItemC2SPacket(s));
+        Slot slot = this.handler.getSlot(0);
+        if (slot.hasStack()) {
+            String string = name;
+            if (!slot.getStack().hasCustomName() && name.equals(slot.getStack().getName().getString()))
+                string = "";
+            if (this.handler.setNewItemName(string))
+                this.client.player.networkHandler.sendPacket(new RenameItemC2SPacket(string));
         }
     }
 
@@ -106,11 +103,9 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
         this.nameField.setText(string);
     }
 
-    @Override
     protected void drawInvalidRecipeArrow(DrawContext context, int x, int y) {
-        if ((this.handler.getSlot(0).hasStack() || this.handler.getSlot(1).hasStack())
-                && !this.handler.getSlot(this.handler.getResultSlotIndex()).hasStack())
-            context.drawTexture(TEXTURE, x + 99, y + 45, this.backgroundWidth, 0, 28, 21);
+        if ((this.handler.getSlot(0).hasStack() || this.handler.getSlot(1).hasStack()) && !this.handler.getSlot(this.handler.getResultSlotIndex()).hasStack())
+            context.drawGuiTexture(ERROR_TEXTURE, x + 99, y + 45, 28, 21);
     }
 
     @Override
@@ -127,6 +122,6 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
         this.nameField.setText("");
         this.addSelectableChild(this.nameField);
         this.setInitialFocus(this.nameField);
-        this.nameField.setEditable(false);
+        this.nameField.setEditable(this.handler.getSlot(0).hasStack());
     }
 }

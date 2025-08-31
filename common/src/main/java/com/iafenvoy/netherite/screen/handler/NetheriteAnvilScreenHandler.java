@@ -3,6 +3,7 @@ package com.iafenvoy.netherite.screen.handler;
 import com.iafenvoy.netherite.config.NetheriteExtensionConfig;
 import com.iafenvoy.netherite.registry.NetheriteBlocks;
 import com.iafenvoy.netherite.registry.NetheriteScreenHandlers;
+import net.minecraft.SharedConstants;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -16,6 +17,7 @@ import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.ForgingSlotsManager;
 import net.minecraft.text.Text;
+import net.minecraft.util.Util;
 import net.minecraft.world.WorldEvents;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
@@ -87,14 +89,19 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
         this.context.run((world, blockPos) -> world.syncWorldEvent(WorldEvents.ANVIL_USED, blockPos, 0));
     }
 
-    public void setNewItemName(String string) {
-        this.newItemName = string;
-        if (this.getSlot(RESULT_SLOT).hasStack()) {
-            ItemStack itemStack = this.getSlot(RESULT_SLOT).getStack();
-            if (StringUtils.isBlank(string)) itemStack.removeCustomName();
-            else itemStack.setCustomName(Text.literal(this.newItemName));
-        }
-        this.updateResult();
+    public boolean setNewItemName(String newItemName) {
+        String string = sanitize(newItemName);
+        if (string != null && !string.equals(this.newItemName)) {
+            this.newItemName = string;
+            if (this.getSlot(2).hasStack()) {
+                ItemStack itemStack = this.getSlot(2).getStack();
+                if (Util.isBlank(string)) itemStack.removeCustomName();
+                else itemStack.setCustomName(Text.literal(string));
+            }
+            this.updateResult();
+            return true;
+        } else return false;
+
     }
 
     @Override
@@ -235,5 +242,11 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
             this.output.setStack(0, copiedInput);
             this.sendContentUpdates();
         }
+    }
+
+    @Nullable
+    private static String sanitize(String name) {
+        String string = SharedConstants.stripInvalidChars(name);
+        return string.length() <= 50 ? string : null;
     }
 }

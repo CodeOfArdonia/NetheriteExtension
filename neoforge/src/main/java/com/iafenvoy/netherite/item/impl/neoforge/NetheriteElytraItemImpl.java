@@ -1,4 +1,4 @@
-package com.iafenvoy.netherite.item.impl.forge;
+package com.iafenvoy.netherite.item.impl.neoforge;
 
 import com.iafenvoy.netherite.item.impl.NetheriteElytraItem;
 import net.minecraft.entity.EquipmentSlot;

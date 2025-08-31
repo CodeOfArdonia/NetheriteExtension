@@ -309,6 +309,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
                         .add(LootContextParameters.ORIGIN, this.getPos())
                         .add(LootContextParameters.TOOL, usedItem)
                         .add(LootContextParameters.THIS_ENTITY, this)
+                        .add(LootContextParameters.KILLER_ENTITY, this.getOwner())
                         .luck((float) this.luckOfTheSeaLevel + playerEntity.getLuck())
                         .build(LootContextTypes.FISHING);
                 LootTable lootTable = this.getWorld().getServer().getLootManager().getLootTable(LAVA_FISHING_LOOT_TABLE);

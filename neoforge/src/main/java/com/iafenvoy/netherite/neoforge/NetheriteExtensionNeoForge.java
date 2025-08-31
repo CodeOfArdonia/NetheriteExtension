@@ -1,27 +1,24 @@
-package com.iafenvoy.netherite.forge;
+package com.iafenvoy.netherite.neoforge;
 
 import com.iafenvoy.netherite.NetheriteExtension;
 import com.iafenvoy.netherite.NetheriteExtensionClient;
 import com.iafenvoy.netherite.registry.NetheriteItems;
 import com.iafenvoy.netherite.registry.NetheritePotions;
 import dev.architectury.platform.Platform;
-import dev.architectury.platform.forge.EventBuses;
 import net.minecraft.item.Items;
 import net.minecraft.potion.PotionUtil;
 import net.minecraft.potion.Potions;
 import net.minecraft.recipe.Ingredient;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.common.brewing.BrewingRecipeRegistry;
 
 @Mod(NetheriteExtension.MOD_ID)
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-public final class NetheriteExtensionForge {
-    public NetheriteExtensionForge() {
-        EventBuses.registerModEventBus(NetheriteExtension.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
+public final class NetheriteExtensionNeoForge {
+    public NetheriteExtensionNeoForge() {
         NetheriteExtension.init();
         if (Platform.getEnv() == Dist.CLIENT)
             NetheriteExtensionClient.init();
