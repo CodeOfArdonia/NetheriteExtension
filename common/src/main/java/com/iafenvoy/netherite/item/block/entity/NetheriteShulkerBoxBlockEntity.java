@@ -21,6 +21,7 @@ import net.minecraft.screen.ShulkerBoxScreenHandler;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.*;
@@ -119,7 +120,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 
     @Override
     protected Text getContainerName() {
-        return Text.translatable("container.netheriteShulkerBox");
+        return new TranslatableText("container.netheriteShulkerBox");
     }
 
     @Override

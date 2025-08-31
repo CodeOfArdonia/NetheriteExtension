@@ -40,7 +40,7 @@ dependencies {
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
 
-    modImplementation(include("com.github.CrimsonDawn45:Fabric-Shield-Lib:v${project.fabric_shield_lib_version}"))
+    modImplementation(include("com.github.StellarWind22:Shield-Lib:v${project.fabric_shield_lib_version}"))
 }
 
 processResources {

@@ -23,12 +23,12 @@ public class NetheriteElytraItemImpl extends NetheriteElytraItem {
 
     @Override
     public boolean elytraFlightTick(ItemStack stack, LivingEntity entity, int flightTicks) {
-        if (!entity.getWorld().isClient) {
+        if (!entity.world.isClient) {
             int nextFlightTick = flightTicks + 1;
             if (nextFlightTick % 10 == 0) {
                 if (nextFlightTick % 20 == 0)
                     stack.damage(1, entity, (e) -> e.sendEquipmentBreakStatus(EquipmentSlot.CHEST));
-                entity.emitGameEvent(GameEvent.ELYTRA_GLIDE);
+                entity.emitGameEvent(GameEvent.ELYTRA_FREE_FALL);
             }
         }
         return true;

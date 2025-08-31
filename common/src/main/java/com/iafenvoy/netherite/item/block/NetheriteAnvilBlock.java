@@ -9,11 +9,12 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class NetheriteAnvilBlock extends AnvilBlock {
-    private static final Text TITLE = Text.translatable("container.repair");
+    private static final Text TITLE = new TranslatableText("container.repair");
 
     public NetheriteAnvilBlock() {
         super(AbstractBlock.Settings.copy(Blocks.ANVIL));

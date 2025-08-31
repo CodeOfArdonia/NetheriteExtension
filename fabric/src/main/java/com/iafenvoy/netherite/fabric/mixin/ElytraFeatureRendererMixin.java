@@ -27,7 +27,7 @@ public abstract class ElytraFeatureRendererMixin<T extends LivingEntity, M exten
     @Final
     private static Identifier SKIN;
     @Unique
-    private static final Identifier NETHERITE_ELYTRA_SKIN = Identifier.of(NetheriteExtension.MOD_ID, "textures/entity/netherite_elytra.png");
+    private static final Identifier NETHERITE_ELYTRA_SKIN = new Identifier(NetheriteExtension.MOD_ID, "textures/entity/netherite_elytra.png");
     @Unique
     private ItemStack netherite_ext$tempStack = ItemStack.EMPTY;
 

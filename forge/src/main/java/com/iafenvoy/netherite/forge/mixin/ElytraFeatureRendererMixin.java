@@ -11,23 +11,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @OnlyIn(Dist.CLIENT)
 @Mixin(ElytraFeatureRenderer.class)
 public abstract class ElytraFeatureRendererMixin<T extends LivingEntity, M extends EntityModel<T>> extends FeatureRenderer<T, M> {
-    @Shadow
-    @Final
-    private static Identifier SKIN;
+    @SuppressWarnings("removal")
     @Unique
-    private static final Identifier NETHERITE_ELYTRA_SKIN = Identifier.of(NetheriteExtension.MOD_ID, "textures/entity/netherite_elytra.png");
+    private static final Identifier NETHERITE_ELYTRA_SKIN = new Identifier(NetheriteExtension.MOD_ID, "textures/entity/netherite_elytra.png");
     @Unique
     private ItemStack netherite_ext$tempStack = ItemStack.EMPTY;
 
@@ -41,8 +36,9 @@ public abstract class ElytraFeatureRendererMixin<T extends LivingEntity, M exten
         if (stack.isOf(NetheriteItems.NETHERITE_ELYTRA.get())) cir.setReturnValue(true);
     }
 
-    @ModifyVariable(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/entity/LivingEntity;FFFFFF)V", at = @At("STORE"), ordinal = 0)
-    private Identifier handleNetheriteElytraTexture(Identifier identifier) {
-        return this.netherite_ext$tempStack.isOf(NetheriteItems.NETHERITE_ELYTRA.get()) && identifier.equals(SKIN) ? NETHERITE_ELYTRA_SKIN : identifier;
+    @Inject(method = "getElytraTexture", at = @At("HEAD"), cancellable = true)
+    private void handleNetheriteElytraTexture(ItemStack stack, T entity, CallbackInfoReturnable<Identifier> cir) {
+        if (this.netherite_ext$tempStack.isOf(NetheriteItems.NETHERITE_ELYTRA.get()))
+            cir.setReturnValue(NETHERITE_ELYTRA_SKIN);
     }
 }

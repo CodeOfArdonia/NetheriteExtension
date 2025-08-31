@@ -30,7 +30,6 @@ import net.minecraft.item.ShieldItem;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.RegistryEntry;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -42,8 +41,8 @@ import java.util.function.Consumer;
 public class NetheriteBuiltinItemRenderer {
     private static final NetheriteShulkerBoxBlockEntity RENDER_NETHERITE_SHULKER_BOX = new NetheriteShulkerBoxBlockEntity(BlockPos.ORIGIN, NetheriteBlocks.NETHERITE_SHULKER_BOX.get().getDefaultState());
     private static final NetheriteShulkerBoxBlockEntity[] RENDER_NETHERITE_SHULKER_BOX_DYED = Arrays.stream(DyeColor.values()).sorted(Comparator.comparingInt(DyeColor::getId)).map(dyeColor -> new NetheriteShulkerBoxBlockEntity(dyeColor, BlockPos.ORIGIN, NetheriteBlocks.NETHERITE_SHULKER_BOX.get().getDefaultState())).toArray(NetheriteShulkerBoxBlockEntity[]::new);
-    private static final SpriteIdentifier NETHERITE_SHIELD_BASE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, Identifier.of(NetheriteExtension.MOD_ID, "entity/netherite_shield_base"));
-    private static final SpriteIdentifier NETHERITE_SHIELD_BASE_NO_PATTERN = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, Identifier.of(NetheriteExtension.MOD_ID, "entity/netherite_shield_base_nopattern"));
+    private static final SpriteIdentifier NETHERITE_SHIELD_BASE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(NetheriteExtension.MOD_ID, "entity/netherite_shield_base"));
+    private static final SpriteIdentifier NETHERITE_SHIELD_BASE_NO_PATTERN = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(NetheriteExtension.MOD_ID, "entity/netherite_shield_base_nopattern"));
 
     public static void registerTextures(Consumer<Identifier> consumer) {
         consumer.accept(NETHERITE_SHIELD_BASE.getTextureId());
@@ -61,7 +60,7 @@ public class NetheriteBuiltinItemRenderer {
             } else {
                 matrices.push();
                 matrices.scale(1, -1, -1);
-                VertexConsumer consumer = ItemRenderer.getDirectItemGlintConsumer(vertexConsumers, tridentModel.getLayer(Identifier.of(NetheriteExtension.MOD_ID, "textures/entity/netherite_trident.png")), false, stack.hasGlint());
+                VertexConsumer consumer = ItemRenderer.getDirectItemGlintConsumer(vertexConsumers, tridentModel.getLayer(new Identifier(NetheriteExtension.MOD_ID, "textures/entity/netherite_trident.png")), false, stack.hasGlint());
                 tridentModel.render(matrices, consumer, light, overlay, 1, 1, 1, 1);
                 matrices.pop();
             }
@@ -73,7 +72,7 @@ public class NetheriteBuiltinItemRenderer {
             VertexConsumer vertexConsumer = spriteIdentifier.getSprite().getTextureSpecificVertexConsumer(ItemRenderer.getDirectItemGlintConsumer(vertexConsumers, shieldModel.getLayer(spriteIdentifier.getAtlasId()), true, stack.hasGlint()));
             shieldModel.getHandle().render(matrices, vertexConsumer, light, overlay, 1, 1, 1, 1);
             if (bl) {
-                List<Pair<RegistryEntry<BannerPattern>, DyeColor>> list = BannerBlockEntity.getPatternsFromNbt(ShieldItem.getColor(stack), BannerBlockEntity.getPatternListNbt(stack));
+                List<Pair<BannerPattern, DyeColor>> list = BannerBlockEntity.getPatternsFromNbt(ShieldItem.getColor(stack), BannerBlockEntity.getPatternListNbt(stack));
                 BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, overlay, shieldModel.getPlate(), spriteIdentifier, false, list, stack.hasGlint());
             } else {
                 shieldModel.getPlate().render(matrices, vertexConsumer, light, overlay, 1, 1, 1, 1);

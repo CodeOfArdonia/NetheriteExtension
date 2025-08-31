@@ -14,6 +14,7 @@ import net.minecraft.item.Items;
 import net.minecraft.screen.ForgingScreenHandler;
 import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.world.WorldEvents;
 import org.apache.commons.lang3.StringUtils;
@@ -82,7 +83,7 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
         if (this.getSlot(RESULT_SLOT).hasStack()) {
             ItemStack itemStack = this.getSlot(RESULT_SLOT).getStack();
             if (StringUtils.isBlank(string)) itemStack.removeCustomName();
-            else itemStack.setCustomName(Text.literal(this.newItemName));
+            else itemStack.setCustomName(new LiteralText(this.newItemName));
         }
         this.updateResult();
     }
@@ -200,7 +201,7 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
             } else if (!this.newItemName.equals(inputStack.getName().getString())) {
                 isRename = 1;
                 uses += isRename;
-                copiedInput.setCustomName(Text.literal(this.newItemName));
+                copiedInput.setCustomName(new LiteralText(this.newItemName));
             }
 
             // this is the important line that changes things

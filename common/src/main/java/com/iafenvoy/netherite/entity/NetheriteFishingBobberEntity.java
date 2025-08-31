@@ -53,7 +53,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
         this.refreshPositionAndAngles(d, e, l, g, f);
         Vec3d vec3d = new Vec3d(-i, MathHelper.clamp(-(k / j), -5.0F, 5.0F), -h);
         double m = vec3d.length();
-        vec3d = vec3d.multiply(0.6 / m + this.random.nextTriangular(0.5F, 0.0103365), 0.6 / m + this.random.nextTriangular(0.5F, 0.0103365), 0.6 / m + this.random.nextTriangular(0.5F, 0.0103365));
+        vec3d = vec3d.multiply(0.6 / m + (double)0.5F + this.random.nextGaussian() * 0.0045, 0.6 / m + (double)0.5F + this.random.nextGaussian() * 0.0045, 0.6 / m + (double)0.5F + this.random.nextGaussian() * 0.0045);
         this.setVelocity(vec3d);
         this.setYaw((float) (MathHelper.atan2(vec3d.x, vec3d.z) * (double) (180F / (float) Math.PI)));
         this.setPitch((float) (MathHelper.atan2(vec3d.y, vec3d.horizontalLength()) * (double) (180F / (float) Math.PI)));

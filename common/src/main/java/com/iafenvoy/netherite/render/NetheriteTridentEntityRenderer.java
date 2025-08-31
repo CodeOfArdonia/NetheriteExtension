@@ -19,7 +19,7 @@ import net.minecraft.util.math.Vec3f;
 
 @Environment(EnvType.CLIENT)
 public class NetheriteTridentEntityRenderer extends EntityRenderer<NetheriteTridentEntity> {
-    public static final Identifier TEXTURE = Identifier.of(NetheriteExtension.MOD_ID, "textures/entity/netherite_trident.png");
+    public static final Identifier TEXTURE = new Identifier(NetheriteExtension.MOD_ID, "textures/entity/netherite_trident.png");
     private final TridentEntityModel model;
 
     public NetheriteTridentEntityRenderer(EntityRendererFactory.Context context) {

@@ -10,8 +10,6 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.entity.PistonBlockEntity;
-import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
@@ -30,8 +28,10 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.*;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.hit.BlockHitResult;
@@ -52,7 +52,7 @@ import java.util.stream.Stream;
 @SuppressWarnings("deprecation")
 public class NetheriteShulkerBoxBlock extends BlockWithEntity {
     public static final EnumProperty<Direction> FACING = FacingBlock.FACING;
-    public static final Identifier CONTENTS = Identifier.of(Identifier.DEFAULT_NAMESPACE, "contents");
+    public static final Identifier CONTENTS = new Identifier(Identifier.DEFAULT_NAMESPACE, "contents");
     private static final Map<DyeColor, Block> BY_COLOR = new HashMap<>();
     private static final AbstractBlock.ContextPredicate CONTEXT_PREDICATE = (state, world, pos) -> !(world.getBlockEntity(pos) instanceof NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity) || shulkerBoxBlockEntity.suffocates();
     @Nullable
@@ -106,7 +106,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
         NbtCompound compoundTag = stack.getSubNbt("BlockEntityTag");
         if (compoundTag != null) {
             if (compoundTag.contains("LootTable", 8))
-                tooltip.add(Text.literal("???????"));
+                tooltip.add(new LiteralText("???????"));
             if (compoundTag.contains("Items", 9)) {
                 DefaultedList<ItemStack> defaultedList = DefaultedList.ofSize(27, ItemStack.EMPTY);
                 Inventories.readNbt(compoundTag, defaultedList);
@@ -117,13 +117,13 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
                         ++j;
                         if (i <= 4) {
                             ++i;
-                            MutableText mutableText = itemStack.getName().copyContentOnly();
+                            MutableText mutableText = itemStack.getName().copy();
                             mutableText.append(" x").append(String.valueOf(itemStack.getCount()));
                             tooltip.add(mutableText);
                         }
                     }
                 if (j - i > 0)
-                    tooltip.add(Text.translatable("container.shulkerBox.more", j - i).formatted(Formatting.ITALIC));
+                    tooltip.add(new TranslatableText("container.shulkerBox.more", j - i).formatted(Formatting.ITALIC));
             }
         }
     }

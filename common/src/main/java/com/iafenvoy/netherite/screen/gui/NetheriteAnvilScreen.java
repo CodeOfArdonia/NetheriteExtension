@@ -14,12 +14,13 @@ import net.minecraft.network.packet.c2s.play.RenameItemC2SPacket;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHandler> {
-    private static final Identifier TEXTURE = Identifier.of(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/anvil.png");
-    private static final Text TOO_EXPENSIVE_TEXT = Text.translatable("container.repair.expensive");
+    private static final Identifier TEXTURE = new Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/anvil.png");
+    private static final Text TOO_EXPENSIVE_TEXT = new TranslatableText("container.repair.expensive");
     private final PlayerEntity player;
     private TextFieldWidget nameField;
 
@@ -47,7 +48,7 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
             } else if (!this.handler.getSlot(2).hasStack()) {
                 text = null;
             } else {
-                text = Text.translatable("container.repair.cost", i);
+                text = new TranslatableText("container.repair.cost", i);
                 if (!this.handler.getSlot(2).canTakeItems(this.player)) {
                     j = 16736352;
                 }
@@ -111,7 +112,7 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
     protected void setup() {
         int i = (this.width - this.backgroundWidth) / 2;
         int j = (this.height - this.backgroundHeight) / 2;
-        this.nameField = new TextFieldWidget(this.textRenderer, i + 62, j + 24, 103, 12, Text.translatable("container.repair"));
+        this.nameField = new TextFieldWidget(this.textRenderer, i + 62, j + 24, 103, 12, new TranslatableText("container.repair"));
         this.nameField.setFocusUnlocked(false);
         this.nameField.setEditableColor(-1);
         this.nameField.setUneditableColor(-1);
