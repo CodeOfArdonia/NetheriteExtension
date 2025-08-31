@@ -2,12 +2,16 @@ package com.iafenvoy.netherite.item;
 
 import com.iafenvoy.netherite.config.NetheriteExtensionConfig;
 import com.iafenvoy.netherite.entity.NetheriteTridentEntity;
+import net.minecraft.component.type.AttributeModifierSlot;
+import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.TridentItem;
 import net.minecraft.sound.SoundCategory;
@@ -21,9 +25,12 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class NetheriteTridentItem extends TridentItem {
-    public NetheriteTridentItem(Settings settings) {
-        super(settings);
-        this.attributeModifiers.get(EntityAttributes.GENERIC_ATTACK_DAMAGE).forEach(eam -> eam.value = eam.getValue() * NetheriteExtensionConfig.INSTANCE.damage.trident_damage_multiplier + NetheriteExtensionConfig.INSTANCE.damage.trident_damage_addition);
+    public NetheriteTridentItem(Item.Settings settings) {
+        super(settings.attributeModifiers(createAttributeModifiers()));
+    }
+
+    public static AttributeModifiersComponent createAttributeModifiers() {
+        return AttributeModifiersComponent.builder().add(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Tool modifier", 8.0F * NetheriteExtensionConfig.INSTANCE.damage.trident_damage_multiplier + NetheriteExtensionConfig.INSTANCE.damage.trident_damage_addition, EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND).add(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Tool modifier", -2.9F, EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND).build();
     }
 
     @Override
@@ -34,7 +41,7 @@ public class NetheriteTridentItem extends TridentItem {
                 int riptideLevel = EnchantmentHelper.getRiptide(stack);
                 if (riptideLevel <= 0 || playerEntity.isTouchingWaterOrRain() || playerEntity.isInLava()) {
                     if (!world.isClient) {
-                        stack.damage(1, playerEntity, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
+                        stack.damage(1, playerEntity, LivingEntity.getSlotForHand(user.getActiveHand()));
                         if (riptideLevel == 0) {
                             NetheriteTridentEntity tridentEntity = new NetheriteTridentEntity(world, playerEntity, stack);
                             tridentEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 2.5F + riptideLevel * 0.5F, 1.0F);

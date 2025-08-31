@@ -7,7 +7,7 @@
     "item": "minecraft:netherite_ingot"
   },
   "result": {
-    "item": "netherite_ext:netherite_elytra"
+    "id": "netherite_ext:netherite_elytra"
   },
   "template": {
     "item": "minecraft:netherite_upgrade_smithing_template"

@@ -27,7 +27,7 @@ public class NetheriteElytraItemImpl extends NetheriteElytraItem {
             int nextFlightTick = flightTicks + 1;
             if (nextFlightTick % 10 == 0) {
                 if (nextFlightTick % 20 == 0)
-                    stack.damage(1, entity, (e) -> e.sendEquipmentBreakStatus(EquipmentSlot.CHEST));
+                    stack.damage(1, entity, EquipmentSlot.CHEST);
                 entity.emitGameEvent(GameEvent.ELYTRA_GLIDE);
             }
         }

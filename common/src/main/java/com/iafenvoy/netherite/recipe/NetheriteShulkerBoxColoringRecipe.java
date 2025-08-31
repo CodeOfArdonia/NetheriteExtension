@@ -2,6 +2,7 @@ package com.iafenvoy.netherite.recipe;
 
 import com.iafenvoy.netherite.item.block.NetheriteShulkerBoxBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
@@ -10,7 +11,7 @@ import net.minecraft.item.Items;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 
 public class NetheriteShulkerBoxColoringRecipe extends SpecialCraftingRecipe {
@@ -19,23 +20,19 @@ public class NetheriteShulkerBoxColoringRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public ItemStack craft(RecipeInputInventory craftingInventory, DynamicRegistryManager registryManager) {
+    public ItemStack craft(RecipeInputInventory craftingInventory, RegistryWrapper.WrapperLookup registryManager) {
         ItemStack itemStack = ItemStack.EMPTY;
         DyeItem dyeItem = (DyeItem) Items.WHITE_DYE;
         for (int i = 0; i < craftingInventory.size(); ++i) {
             ItemStack itemStack2 = craftingInventory.getStack(i);
             if (!itemStack2.isEmpty()) {
                 Item item = itemStack2.getItem();
-                if (Block.getBlockFromItem(item) instanceof NetheriteShulkerBoxBlock)
-                    itemStack = itemStack2;
-                else if (item instanceof DyeItem dye)
-                    dyeItem = dye;
+                if (Block.getBlockFromItem(item) instanceof ShulkerBoxBlock) itemStack = itemStack2;
+                else if (item instanceof DyeItem dye) dyeItem = dye;
             }
         }
-        ItemStack itemStack3 = NetheriteShulkerBoxBlock.getItemStack(dyeItem.getColor());
-        if (itemStack.hasNbt())
-            itemStack3.setNbt(itemStack.getOrCreateNbt().copy());
-        return itemStack3;
+        Block block = ShulkerBoxBlock.get(dyeItem.getColor());
+        return itemStack.copyComponentsToNewStack(block, 1);
     }
 
     @Override
@@ -55,15 +52,12 @@ public class NetheriteShulkerBoxColoringRecipe extends SpecialCraftingRecipe {
         for (int k = 0; k < craftingInventory.size(); ++k) {
             ItemStack itemStack = craftingInventory.getStack(k);
             if (!itemStack.isEmpty()) {
-                if (Block.getBlockFromItem(itemStack.getItem()) instanceof NetheriteShulkerBoxBlock)
-                    ++i;
+                if (Block.getBlockFromItem(itemStack.getItem()) instanceof NetheriteShulkerBoxBlock) ++i;
                 else {
-                    if (!(itemStack.getItem() instanceof DyeItem))
-                        return false;
+                    if (!(itemStack.getItem() instanceof DyeItem)) return false;
                     ++j;
                 }
-                if (j > 1 || i > 1)
-                    return false;
+                if (j > 1 || i > 1) return false;
             }
         }
         return i == 1 && j == 1;

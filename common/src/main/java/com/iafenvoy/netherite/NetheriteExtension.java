@@ -9,6 +9,7 @@ public class NetheriteExtension {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public static void init() {
+        NetheriteArmorMaterials.REGISTRY.register();
         NetheriteBlocks.REGISTRY.register();
         NetheriteBlockEntities.REGISTRY.register();
         NetheriteEntities.REGISTRY.register();

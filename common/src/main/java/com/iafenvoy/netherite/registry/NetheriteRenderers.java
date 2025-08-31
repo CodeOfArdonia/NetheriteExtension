@@ -10,6 +10,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.FishingBobberEntityRenderer;
 import net.minecraft.client.util.ModelIdentifier;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ChargedProjectilesComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.ElytraItem;
@@ -42,7 +44,10 @@ public final class NetheriteRenderers {
         ItemPropertiesRegistry.register(NETHERITE_CROSSBOW.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "pull"), (itemStack, clientWorld, livingEntity, i) -> livingEntity == null ? 0.0F : CrossbowItem.isCharged(itemStack) ? 0.0F : (float) (itemStack.getMaxUseTime() - livingEntity.getItemUseTimeLeft()) / (float) CrossbowItem.getPullTime(itemStack));
         ItemPropertiesRegistry.register(NETHERITE_CROSSBOW.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "pulling"), (itemStack, clientWorld, livingEntity, i) -> livingEntity == null ? 0.0F : livingEntity.isUsingItem() && livingEntity.getActiveItem() == itemStack && !CrossbowItem.isCharged(itemStack) ? 1.0F : 0.0F);
         ItemPropertiesRegistry.register(NETHERITE_CROSSBOW.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "charged"), (itemStack, clientWorld, livingEntity, i) -> livingEntity == null ? 0.0F : CrossbowItem.isCharged(itemStack) ? 1.0F : 0.0F);
-        ItemPropertiesRegistry.register(NETHERITE_CROSSBOW.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "firework"), (itemStack, clientWorld, livingEntity, i) -> livingEntity == null ? 0.0F : CrossbowItem.isCharged(itemStack) && CrossbowItem.hasProjectile(itemStack, Items.FIREWORK_ROCKET) ? 1.0F : 0.0F);
+        ItemPropertiesRegistry.register(NETHERITE_CROSSBOW.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "firework"), (itemStack, clientWorld, livingEntity, i) -> {
+            ChargedProjectilesComponent component = itemStack.get(DataComponentTypes.CHARGED_PROJECTILES);
+            return component != null && component.contains(Items.FIREWORK_ROCKET) ? 1.0F : 0.0F;
+        });
         ItemPropertiesRegistry.register(NETHERITE_TRIDENT.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "throwing"), (itemStack, clientWorld, livingEntity, i) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getActiveItem() == itemStack ? 1.0F : 0.0F);
         ItemPropertiesRegistry.register(NETHERITE_SHIELD.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "blocking"), (stack, world, entity, seed) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F);
     }

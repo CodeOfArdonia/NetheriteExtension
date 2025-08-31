@@ -44,7 +44,7 @@ public class NetheriteBowItem extends BowItem {
                         if (k > 0) persistentProjectileEntity.setPunch(k);
                         if (EnchantmentHelper.getLevel(Enchantments.FLAME, stack) > 0)
                             persistentProjectileEntity.setOnFireFor(100);
-                        stack.damage(1, playerEntity, (p) -> p.sendToolBreakStatus(playerEntity.getActiveHand()));
+                        stack.damage(1, playerEntity, LivingEntity.getSlotForHand(playerEntity.getActiveHand()));
                         if (bl2 || playerEntity.getAbilities().creativeMode && (itemStack.isOf(Items.SPECTRAL_ARROW) || itemStack.isOf(Items.TIPPED_ARROW)))
                             persistentProjectileEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
                         world.spawnEntity(persistentProjectileEntity);

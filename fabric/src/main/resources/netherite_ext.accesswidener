@@ -17,6 +17,7 @@ accessible field net/minecraft/entity/projectile/FishingBobberEntity outOfOpenWa
 accessible field net/minecraft/entity/projectile/FishingBobberEntity caughtFish Z
 accessible method net/minecraft/entity/projectile/FishingBobberEntity <init> (Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;II)V
 extendable method net/minecraft/entity/projectile/FishingBobberEntity removeIfInvalid (Lnet/minecraft/entity/player/PlayerEntity;)Z
-accessible field net/minecraft/item/TridentItem attributeModifiers Lcom/google/common/collect/Multimap;
 accessible field net/minecraft/entity/attribute/EntityAttributeModifier value D
 mutable field net/minecraft/entity/attribute/EntityAttributeModifier value D
+accessible method net/minecraft/client/gui/screen/ingame/HandledScreens register (Lnet/minecraft/screen/ScreenHandlerType;Lnet/minecraft/client/gui/screen/ingame/HandledScreens$Provider;)V
+accessible class net/minecraft/client/gui/screen/ingame/HandledScreens$Provider

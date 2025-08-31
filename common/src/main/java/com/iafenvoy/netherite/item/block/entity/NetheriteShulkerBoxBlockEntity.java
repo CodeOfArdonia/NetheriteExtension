@@ -16,6 +16,7 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ShulkerBoxScreenHandler;
 import net.minecraft.sound.SoundCategory;
@@ -77,18 +78,18 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
     }
 
     @Override
-    public void readNbt(NbtCompound tag) {
-        super.readNbt(tag);
+    public void readNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registries) {
+        super.readNbt(tag, registries);
         this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
         if (!this.readLootTable(tag) && tag.contains("Items", 9))
-            Inventories.readNbt(tag, this.inventory);
+            Inventories.readNbt(tag, this.inventory, registries);
     }
 
     @Override
-    public void writeNbt(NbtCompound tag) {
-        super.writeNbt(tag);
+    public void writeNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registries) {
+        super.writeNbt(tag, registries);
         if (!this.writeLootTable(tag))
-            Inventories.writeNbt(tag, this.inventory, false);
+            Inventories.writeNbt(tag, this.inventory, false, registries);
     }
 
     public float getAnimationProgress(float f) {
@@ -123,12 +124,12 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
     }
 
     @Override
-    protected DefaultedList<ItemStack> method_11282() {
+    protected DefaultedList<ItemStack> getHeldStacks() {
         return this.inventory;
     }
 
     @Override
-    protected void setInvStackList(DefaultedList<ItemStack> list) {
+    protected void setHeldStacks(DefaultedList<ItemStack> list) {
         this.inventory = list;
     }
 
@@ -180,7 +181,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
     private void pushEntities(World world, BlockPos pos, BlockState state) {
         if (state.getBlock() instanceof NetheriteShulkerBoxBlock) {
             Direction direction = state.get(NetheriteShulkerBoxBlock.FACING);
-            Box box = ShulkerEntity.calculateBoundingBox(direction, this.prevAnimationProgress, this.animationProgress).offset(pos);
+            Box box = ShulkerEntity.calculateBoundingBox(1.0F, direction, this.prevAnimationProgress, this.animationProgress).offset(pos);
             List<Entity> list = world.getOtherEntities(null, box);
             if (!list.isEmpty())
                 for (Entity entity : list)

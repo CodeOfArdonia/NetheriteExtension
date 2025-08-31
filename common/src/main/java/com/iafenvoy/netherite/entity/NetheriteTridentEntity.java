@@ -28,28 +28,28 @@ import net.minecraft.world.World;
 public class NetheriteTridentEntity extends PersistentProjectileEntity {
     private static final TrackedData<Byte> LOYALTY = DataTracker.registerData(NetheriteTridentEntity.class, TrackedDataHandlerRegistry.BYTE);
     private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(NetheriteTridentEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final ItemStack DEFAULT = new ItemStack(NetheriteItems.NETHERITE_TRIDENT.get());
     public ItemStack tridentStack;
     public boolean dealtDamage;
     public int returnTimer;
 
     public NetheriteTridentEntity(EntityType<? extends NetheriteTridentEntity> type, World world) {
-        super(type, world, new ItemStack(NetheriteItems.NETHERITE_TRIDENT.get()));
-        this.tridentStack = new ItemStack(NetheriteItems.NETHERITE_TRIDENT.get());
+        super(type, world, DEFAULT.copy());
+        this.tridentStack = DEFAULT.copy();
     }
 
     public NetheriteTridentEntity(World world, LivingEntity owner, ItemStack stack) {
-        super(NetheriteEntities.NETHERITE_TRIDENT.get(), owner, world, new ItemStack(NetheriteItems.NETHERITE_TRIDENT.get()));
-        this.tridentStack = new ItemStack(NetheriteItems.NETHERITE_TRIDENT.get());
+        super(NetheriteEntities.NETHERITE_TRIDENT.get(), owner, world, stack);
         this.tridentStack = stack.copy();
         this.dataTracker.set(LOYALTY, (byte) EnchantmentHelper.getLoyalty(stack));
         this.dataTracker.set(ENCHANTED, stack.hasGlint());
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(LOYALTY, (byte) 0);
-        this.dataTracker.startTracking(ENCHANTED, false);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(LOYALTY, (byte) 0);
+        builder.add(ENCHANTED, false);
     }
 
     @Override
@@ -91,6 +91,11 @@ public class NetheriteTridentEntity extends PersistentProjectileEntity {
         return this.tridentStack.copy();
     }
 
+    @Override
+    protected ItemStack getDefaultItemStack() {
+        return DEFAULT.copy();
+    }
+
     public boolean isEnchanted() {
         return this.dataTracker.get(ENCHANTED);
     }
@@ -105,7 +110,7 @@ public class NetheriteTridentEntity extends PersistentProjectileEntity {
         Entity entity = entityHitResult.getEntity();
         float f = 8.0F;
         if (entity instanceof LivingEntity livingEntity)
-            f += EnchantmentHelper.getAttackDamage(this.tridentStack, livingEntity.getGroup());
+            f += EnchantmentHelper.getAttackDamage(this.tridentStack, livingEntity.getType());
         f = (float) (f * NetheriteExtensionConfig.INSTANCE.damage.trident_damage_multiplier + NetheriteExtensionConfig.INSTANCE.damage.trident_damage_addition);
 
         Entity entity2 = this.getOwner();
@@ -159,7 +164,8 @@ public class NetheriteTridentEntity extends PersistentProjectileEntity {
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        if (nbt.contains("Trident", 10)) this.tridentStack = ItemStack.fromNbt(nbt.getCompound("Trident"));
+        if (nbt.contains("Trident", 10))
+            this.tridentStack = ItemStack.fromNbtOrEmpty(this.getWorld().getRegistryManager(), nbt.getCompound("Trident"));
         this.dealtDamage = nbt.getBoolean("DealtDamage");
         this.dataTracker.set(LOYALTY, (byte) EnchantmentHelper.getLoyalty(this.tridentStack));
     }
@@ -167,7 +173,7 @@ public class NetheriteTridentEntity extends PersistentProjectileEntity {
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-        nbt.put("Trident", this.tridentStack.writeNbt(new NbtCompound()));
+        nbt.put("Trident", this.tridentStack.encodeAllowEmpty(this.getWorld().getRegistryManager()));
         nbt.putBoolean("DealtDamage", this.dealtDamage);
     }
 

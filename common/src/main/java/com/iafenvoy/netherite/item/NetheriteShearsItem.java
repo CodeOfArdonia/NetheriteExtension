@@ -18,7 +18,7 @@ public class NetheriteShearsItem extends ShearsItem {
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
         if (entity instanceof Shearable shearable && shearable.isShearable()) {
             shearable.sheared(SoundCategory.PLAYERS);
-            stack.damage(1, user, p -> p.sendToolBreakStatus(hand));
+            stack.damage(1, user, LivingEntity.getSlotForHand(hand));
             return ActionResult.SUCCESS;
         }
         return super.useOnEntity(stack, user, entity, hand);

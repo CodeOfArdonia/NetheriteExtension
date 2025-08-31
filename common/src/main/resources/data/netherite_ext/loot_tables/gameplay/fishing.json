@@ -8,7 +8,7 @@
           "type": "minecraft:loot_table",
           "weight": 60,
           "quality": -2,
-          "name": "netherite_ext:gameplay/fishing/junk"
+          "value": "netherite_ext:gameplay/fishing/junk"
         },
         {
           "type": "minecraft:loot_table",
@@ -25,7 +25,7 @@
           ],
           "weight": 40,
           "quality": 2,
-          "name": "netherite_ext:gameplay/fishing/treasure"
+          "value": "netherite_ext:gameplay/fishing/treasure"
         }
       ]
     }

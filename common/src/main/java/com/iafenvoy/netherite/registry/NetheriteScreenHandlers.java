@@ -6,6 +6,7 @@ import com.iafenvoy.netherite.screen.handler.NetheriteAnvilScreenHandler;
 import dev.architectury.registry.menu.MenuRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.screen.ScreenHandler;
@@ -21,6 +22,6 @@ public final class NetheriteScreenHandlers {
     }
 
     public static void initializeClient() {
-        MenuRegistry.registerScreenFactory(NetheriteScreenHandlers.NETHERITE_ANVIL.get(), NetheriteAnvilScreen::new);
+        HandledScreens.register(NetheriteScreenHandlers.NETHERITE_ANVIL.get(), NetheriteAnvilScreen::new);
     }
 }

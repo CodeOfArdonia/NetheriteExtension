@@ -7,7 +7,7 @@
     "item": "netherite_ext:netherite_nugget"
   },
   "result": {
-    "item": "netherite_ext:netherite_carrot"
+    "id": "netherite_ext:netherite_carrot"
   },
   "template": {
     "item": "minecraft:netherite_upgrade_smithing_template"

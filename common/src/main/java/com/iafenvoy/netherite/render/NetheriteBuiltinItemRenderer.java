@@ -5,11 +5,8 @@ import com.iafenvoy.netherite.item.block.NetheriteShulkerBoxBlock;
 import com.iafenvoy.netherite.item.block.entity.NetheriteShulkerBoxBlockEntity;
 import com.iafenvoy.netherite.registry.NetheriteBlocks;
 import com.iafenvoy.netherite.registry.NetheriteItems;
-import com.mojang.datafixers.util.Pair;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.entity.BannerBlockEntity;
-import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -24,17 +21,17 @@ import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.BannerPatternsComponent;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ShieldItem;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
+import java.util.Objects;
 
 @SuppressWarnings("deprecation")
 @Environment(EnvType.CLIENT)
@@ -60,18 +57,17 @@ public class NetheriteBuiltinItemRenderer {
                 matrices.pop();
             }
         } else if (stack.isOf(NetheriteItems.NETHERITE_SHIELD.get())) {
-            boolean bl = BlockItem.getBlockEntityNbt(stack) != null;
+            BannerPatternsComponent bannerPatternsComponent = stack.getOrDefault(DataComponentTypes.BANNER_PATTERNS, BannerPatternsComponent.DEFAULT);
+            DyeColor dyeColor2 = stack.get(DataComponentTypes.BASE_COLOR);
+            boolean bl = !bannerPatternsComponent.layers().isEmpty() || dyeColor2 != null;
             matrices.push();
             matrices.scale(1, -1, -1);
             SpriteIdentifier spriteIdentifier = bl ? NETHERITE_SHIELD_BASE : NETHERITE_SHIELD_BASE_NO_PATTERN;
             VertexConsumer vertexConsumer = spriteIdentifier.getSprite().getTextureSpecificVertexConsumer(ItemRenderer.getDirectItemGlintConsumer(vertexConsumers, shieldModel.getLayer(spriteIdentifier.getAtlasId()), true, stack.hasGlint()));
             shieldModel.getHandle().render(matrices, vertexConsumer, light, overlay, 1, 1, 1, 1);
-            if (bl) {
-                List<Pair<RegistryEntry<BannerPattern>, DyeColor>> list = BannerBlockEntity.getPatternsFromNbt(ShieldItem.getColor(stack), BannerBlockEntity.getPatternListNbt(stack));
-                BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, overlay, shieldModel.getPlate(), spriteIdentifier, false, list, stack.hasGlint());
-            } else {
-                shieldModel.getPlate().render(matrices, vertexConsumer, light, overlay, 1, 1, 1, 1);
-            }
+            if (bl)
+                BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, overlay, shieldModel.getPlate(), spriteIdentifier, false, (DyeColor) Objects.requireNonNullElse(dyeColor2, DyeColor.WHITE), bannerPatternsComponent, stack.hasGlint());
+            else shieldModel.getPlate().render(matrices, vertexConsumer, light, overlay, 1, 1, 1, 1);
 
             matrices.pop();
         } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof NetheriteShulkerBoxBlock block) {

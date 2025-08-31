@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "netherite_ext:netherite_elytra",
+    "netherite_ext:netherite_fishing_rod",
+    "netherite_ext:netherite_bow",
+    "netherite_ext:netherite_crossbow",
+    "netherite_ext:netherite_trident",
+    "netherite_ext:netherite_shears",
+    "netherite_ext:netherite_shield"
+  ]
+}
